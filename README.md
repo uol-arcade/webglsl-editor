@@ -1,4 +1,8 @@
 # Web GLSL editor
+![GitHub tag](https://img.shields.io/github/v/tag/blewert/webglsl-editor)
+![GitHub last commit](https://img.shields.io/github/last-commit/blewert/webglsl-editor)
+
+
 This is a web-based GLSL editor. There are many different web-based GLSL editors out there, but I've found that not many of them have a friendly interface. Most also don't support more advanced features, such as uploading your own models & textures.
 
 There needs to be some kind of web-based GLSL editor that quickly allows you to mock up some ideas you might have for a vert or frag shader. This is the aim of this project.
