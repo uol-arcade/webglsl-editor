@@ -19,12 +19,13 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: './src/index.html'
 		}),
-		new CopyWebpackPlugin([
+		new CopyWebpackPlugin({
+			patterns : [
 			{
 				from: './assets',
 				to: '.'
-			}
-		]),
+			}]
+		}),
 		gitRevisionPlugin,
 		new webpack.DefinePlugin({
 			'VERSION': JSON.stringify(gitRevisionPlugin.version()),
