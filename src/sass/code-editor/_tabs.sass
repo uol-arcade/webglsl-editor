@@ -7,21 +7,24 @@
         flex-direction: row
         flex-wrap: nowrap
         margin-top: 0.5rem
+        padding-left: 1rem
 
         li.tab
             list-style-type: none
-            font-family: monospace
+            font-family: $font-alt
+            font-weight: 900
+            font-size: 1rem
 
-            background-color: #eee
-            color: #aaa
+            background-color: $bg-color-light-1
+            color: $bg-color-light-2
 
             border-radius: 0.5rem 0.5rem 0 0
-            padding: 0.5rem 0.75rem
+            padding: 0.25rem 0.75rem
             cursor: pointer
 
             &.selected
-                background-color: lightblue
-                color: black
+                background-color: $accent-color-selected
+                color: $fg-color
 
             &:not(:last-child)
                 margin-right: 0.5rem

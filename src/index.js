@@ -33,16 +33,25 @@ class App extends React.Component
 	onChange(newValue) 
 	{
 		console.log(newValue)
-	
 	}
 
 	render()
 	{
 		return(
-			<CodeEditor tabs={["Vertex", "Fragment"]}>
-				<CodeEditorTab title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
-				<CodeEditorTab title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
-			</CodeEditor>
+			<main>
+				<header>
+					<h1 className="header">GLSL Editor</h1>
+				</header>
+				<div className="split-pane">
+					<CodeEditor tabs={["Vertex", "Fragment"]}>
+						<CodeEditorTab title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
+						<CodeEditorTab title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
+					</CodeEditor>
+					<aside className="threejs-view" id="threejs-mount">
+						hello
+					</aside>
+				</div>
+			</main>
 		);
 	}
 }
