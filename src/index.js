@@ -18,6 +18,10 @@ import './sass/main.sass';
 import VERT_SHADER_TEMPLATE from './glsl/templates/vert.glsl'
 import FRAG_SHADER_TEMPLATE from './glsl/templates/frag.glsl'
 
+//Components
+import CodeEditor from './components/CodeEditor'
+import CodeEditorTab from './components/CodeEditorTab';
+
 
 class App extends React.Component
 {
@@ -32,34 +36,13 @@ class App extends React.Component
 	
 	}
 
-	getAceEditor()
-	{
-		return (
-			<AceEditor
-				className="ace-editor"
-				mode="glsl"
-				theme="tomorrow_night"
-				value={VERT_SHADER_TEMPLATE}
-				onChange={this.onChange.bind(this)}
-				name="glsl_code_editor"
-				fontSize={16}
-				setOptions={{
-					enableBasicAutocompletion: true,
-					enableLiveAutocompletion: true,
-					enableSnippets: true
-				}}
-			/>
-		);
-	}
-
 	render()
 	{
-		let aceEditor = this.getAceEditor();
-
-		console.log(aceEditor);
-
 		return(
-			aceEditor
+			<CodeEditor tabs={["Vertex", "Fragment"]}>
+				<CodeEditorTab title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
+				<CodeEditorTab title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
+			</CodeEditor>
 		);
 	}
 }
