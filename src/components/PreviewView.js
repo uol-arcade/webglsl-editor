@@ -68,6 +68,9 @@ export default class PreviewView extends React.Component
     {
         if (!this.frameId)
             this.frameId = requestAnimationFrame(this.animate)
+
+        //We've started. Update shader material
+        this.updateShaderMaterial(); 
     }
 
     stop() 

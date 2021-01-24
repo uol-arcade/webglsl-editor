@@ -7,12 +7,13 @@ There needs to be some kind of web-based GLSL editor that quickly allows you to 
 To install, clone this repo and run `npm install`. You can then use `start.bat` (on Windows) or `npm run start` to start the editor in development mode.
 
 ## Versioning
-The current version is `0.0.1`. The GLSL editor consists of a blank tabbed text-editor and no functionality. 
+The current version is `0.0.2`. The GLSL editor consists of a blank tabbed text-editor and some functionality: shaders can be edited, and the 3D view updates. No errors are alerted.
 
 ### Previous versions
 | Version | Date | Notes  |
 | ------- | ---- | ------ |
 | 0.0.1   | 23/01/21 | Initial creation
+| 0.0.2   | 24/01/21 | Basic working shader editing.
 
 ### Issues & Suggestions
 Issues & suggestions can be made on the project board for this repository. You should find it under the *Project* tab of this repository. Alternatively, create a new issue under the *Issues* tab.
