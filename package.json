@@ -50,7 +50,9 @@
     "react": "^16.9.0",
     "react-ace": "^9.2.1",
     "react-dom": "^16.9.0",
+    "react-three-fiber": "^5.3.17",
     "sass": "^1.32.5",
-    "sass-loader": "^10.1.1"
+    "sass-loader": "^10.1.1",
+    "three": "^0.124.0"
   }
 }
