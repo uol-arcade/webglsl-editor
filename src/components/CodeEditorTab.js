@@ -21,6 +21,9 @@ export default class CodeEditorTab extends React.Component
     onChange(src)
     {
         this.src = src;
+
+        if(this.props.onChange)
+            this.props.onChange(this.props.title, this.src);
     }
 
     getRenderedEditor()

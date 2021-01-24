@@ -20,7 +20,8 @@ import FRAG_SHADER_TEMPLATE from './glsl/templates/frag.glsl'
 
 //Components
 import CodeEditor from './components/CodeEditor'
-import CodeEditorTab from './components/CodeEditorTab';
+import CodeEditorTab from './components/CodeEditorTab'
+import PreviewView from './components/PreviewView'
 
 
 class App extends React.Component
@@ -28,11 +29,22 @@ class App extends React.Component
 	constructor(props)
 	{
 		super(props);
+
+		this.state = 
+		{
+			vertShaderSrc: VERT_SHADER_TEMPLATE,
+			fragShaderSrc: FRAG_SHADER_TEMPLATE
+		}
 	}
 	
-	onChange(newValue) 
+	onVertexShaderChange(editor, src) 
 	{
-		console.log(newValue)
+		this.setState({ vertShaderSrc: src });
+	}
+
+	onFragmentShaderChange(editor, src) 
+	{
+		this.setState({ fragShaderSrc: src });
 	}
 
 	render()
@@ -44,11 +56,11 @@ class App extends React.Component
 				</header>
 				<div className="split-pane">
 					<CodeEditor tabs={["Vertex", "Fragment"]}>
-						<CodeEditorTab title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
-						<CodeEditorTab title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
+						<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
+						<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
 					</CodeEditor>
 					<aside className="threejs-view" id="threejs-mount">
-						hello
+						<PreviewView vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 					</aside>
 				</div>
 			</main>
