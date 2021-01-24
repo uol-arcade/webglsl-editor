@@ -24,6 +24,10 @@ module.exports = {
 			{
 				from: './assets',
 				to: '.'
+			},
+			{
+				from: './assets/logos/',
+				to: 'logos'
 			}]
 		}),
 		gitRevisionPlugin,

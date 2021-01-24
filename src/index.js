@@ -52,7 +52,7 @@ class App extends React.Component
 		return(
 			<main>
 				<header>
-					<h1 className="header">GLSL Editor</h1>
+					<img src="logos/logocol-round-lod.png" />
 				</header>
 				<div className="split-pane">
 					<CodeEditor tabs={["Vertex", "Fragment"]}>
