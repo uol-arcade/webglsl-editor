@@ -1,6 +1,7 @@
 import React from 'react'
 import * as THREE from 'three'
 import { RawShaderMaterial } from 'three';
+import config from '../cfg/config.json'
 
 function WebGLShader(gl, type, string) 
 {
@@ -22,6 +23,11 @@ export default class PreviewView extends React.Component
         this.stop = this.stop.bind(this)
         this.animate = this.animate.bind(this)
         this.validateShaderSources = this.validateShaderSources.bind(this)
+
+        this.mousePos = { x: 0, y: 0 };
+        this.mouseLastPos = { x: 0, y: 0 };
+        this.originalRot = { };
+        this.mouseDown = false;
     }
 
     componentDidMount() 
@@ -54,6 +60,9 @@ export default class PreviewView extends React.Component
         this.material = material
         this.cube = cube
 
+        document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        document.addEventListener('mouseup', this.onMouseUp.bind(this));
+
         this.mount.appendChild(this.renderer.domElement)
         this.start()
     }
@@ -78,10 +87,49 @@ export default class PreviewView extends React.Component
         cancelAnimationFrame(this.frameId)
     }
 
+    onMouseMove(event)
+    {
+        this.mousePos.x = event.screenX;
+        this.mousePos.y = event.screenY;
+
+        if (this.mouseDown) 
+        {
+            const mouseXDelta = (this.mousePos.x - this.mouseLastPos.x) / screen.height;
+            const mouseYDelta = (this.mousePos.y - this.mouseLastPos.y) / screen.height;
+
+            this.cube.rotation.x += mouseYDelta * config.manualRotateSpeed;
+            this.cube.rotation.y += mouseXDelta * config.manualRotateSpeed;
+        }
+
+        this.mouseLastPos.x = this.mousePos.x;
+        this.mouseLastPos.y = this.mousePos.y;
+    }
+
+    onMouseDown(event)
+    {
+        this.mouseDown = true;
+
+        this.mouseLastPos = {
+            x: event.screenX,
+            y: event.screenY
+        };
+
+        this.originalRot = this.cube.rotation;
+    }
+
+    onMouseUp(event)
+    {
+        if(this.mouseDown)
+            this.mouseDown = false;
+    }
+
     animate() 
     {
-        this.cube.rotation.x += 0.01
-        this.cube.rotation.y += 0.01
+        if(this.props.mode != "manual")
+        {
+            this.cube.rotation.x += config.autoRotateSpeed;
+            this.cube.rotation.y += config.autoRotateSpeed;
+        }
 
         this.renderScene()
         this.frameId = window.requestAnimationFrame(this.animate)
@@ -159,7 +207,7 @@ export default class PreviewView extends React.Component
             this.props.onCompile(status);
 
         return (
-            <div
+            <div onMouseDown={this.onMouseDown.bind(this)}
                 style={{ width: '100%', height: '95%' }}
                 ref={(mount) => { this.mount = mount }}
             />

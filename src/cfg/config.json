@@ -1,3 +1,5 @@
 {
-    "compileUpdateDelay": 250
+    "compileUpdateDelay": 250,
+    "autoRotateSpeed": 0.01,
+    "manualRotateSpeed": 4.0
 }

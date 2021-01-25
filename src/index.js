@@ -36,7 +36,8 @@ class App extends React.Component
 		{
 			vertShaderSrc: VERT_SHADER_TEMPLATE,
 			fragShaderSrc: FRAG_SHADER_TEMPLATE,
-			compileStatus: { compiled: true }
+			compileStatus: { compiled: true },
+			previewMode: "manual"
 		}
 
 		this.timer = null;
@@ -122,7 +123,7 @@ class App extends React.Component
 						<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
 					</CodeEditor>
 					<aside className="threejs-view" id="threejs-mount">
-						<PreviewView ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+						<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 					</aside>
 				</div>
 			</main>
