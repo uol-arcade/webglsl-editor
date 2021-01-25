@@ -25,6 +25,9 @@ import StatusBox from './components/StatusBox'
 
 //Import config
 import config from './cfg/config.json'
+import BinaryToggle from "./components/BinaryToggle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowsAlt, faRobot } from "@fortawesome/free-solid-svg-icons";
 
 class App extends React.Component
 {
@@ -108,6 +111,16 @@ class App extends React.Component
 		this.updateCompileTimer();
 	}
 
+	onBinaryToggleClick()
+	{
+		console.log("hi");
+		
+		if(this.state.previewMode == "manual")
+			this.setState({ previewMode: "auto" });
+
+		else
+			this.setState({ previewMode: "manual" });
+	}
 
 	render()
 	{
@@ -115,7 +128,10 @@ class App extends React.Component
 			<main>
 				<header>
 					<img src="logos/logocol-round-lod.png" />
-					<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
+					<div className="right-pane">
+						<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
+						<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
+					</div>
 				</header>
 				<div className="split-pane">
 					<CodeEditor tabs={["Vertex", "Fragment"]}>

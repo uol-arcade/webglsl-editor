@@ -11,7 +11,7 @@ export default class StatusBox extends React.Component
 
         this.state = {
             status: "pass",
-            title: "Compiled!"
+            title: "Pass"
         }
 
         this.statusObj = {};
@@ -44,7 +44,7 @@ export default class StatusBox extends React.Component
             className = this.state.status;
 
         return (
-            <div className={`status-box ${className}`}>
+            <div title="Compile Status" className={`status-box ${className}`}>
                 <span>{this.getIconFromStatus(this.state.status)}</span>
                 <span>{this.state.title}</span>
             </div>

@@ -1,0 +1,25 @@
+
+.binary-toggle
+    background-color: $bg-color-light-1
+    color: $fg-color-light-1
+    border-radius: 0.75rem
+    font-size: 1rem
+    padding: 0.15rem 0.75rem 
+    cursor: pointer
+
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    align-items: center
+
+
+    span:first-child
+        margin-right: 0.5rem
+
+    span
+        color: $bg-color-light-2
+        display: flex
+        transition: 0.15s
+
+    span.selected
+        color: $accent-color-selected

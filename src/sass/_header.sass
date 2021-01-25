@@ -16,3 +16,13 @@ main > header
         margin: 0
         width: $banner-logo-size
         height: $banner-logo-size
+
+    .right-pane
+        display: flex
+        flex-direction: row
+        flex-wrap: none
+        align-items: stretch
+        margin-right: 2rem
+
+        &>*:not(:last-child)
+            margin-right: 1rem
