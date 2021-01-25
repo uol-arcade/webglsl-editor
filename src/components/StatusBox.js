@@ -8,6 +8,20 @@ export default class StatusBox extends React.Component
     constructor(props)
     {
         super(props);
+
+        this.state = {
+            status: "pass",
+            title: "Compiled!"
+        }
+
+        this.statusObj = {};
+    }
+
+    setCompileStatus(statusObj, status, title)
+    {
+        this.statusObj = statusObj;
+
+        this.setState({ status: status, title: title });
     }
     
     getIconFromStatus(status)
@@ -26,13 +40,13 @@ export default class StatusBox extends React.Component
     {
         let className = "neutral";
 
-        if(this.props.status)
-            className = this.props.status;
+        if(this.state.status)
+            className = this.state.status;
 
         return (
             <div className={`status-box ${className}`}>
-                <span>{this.getIconFromStatus(this.props.status)}</span>
-                <span>{this.props.title}</span>
+                <span>{this.getIconFromStatus(this.state.status)}</span>
+                <span>{this.state.title}</span>
             </div>
         );
     }

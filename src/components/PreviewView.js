@@ -150,11 +150,13 @@ export default class PreviewView extends React.Component
         //Validate sources
         const status = this.validateShaderSources(this.props.vertexShader, this.props.fragmentShader);
 
-        if(!status.compiled)
-            console.log(status);
-
-        else
+        //Compiled? Update material & attach
+        if(status.compiled)
             this.updateShaderMaterial();
+
+        //Call compile update
+        if(this.props.onCompile)
+            this.props.onCompile(status);
 
         return (
             <div

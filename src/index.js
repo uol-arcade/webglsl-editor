@@ -33,8 +33,16 @@ class App extends React.Component
 		this.state = 
 		{
 			vertShaderSrc: VERT_SHADER_TEMPLATE,
-			fragShaderSrc: FRAG_SHADER_TEMPLATE
+			fragShaderSrc: FRAG_SHADER_TEMPLATE,
+			compileStatus: { compiled: true }
 		}
+
+		this.statusBoxRef = React.createRef();
+	}
+
+	shouldComponentUpdate(nextProps, nextState)
+	{
+		return !((this.state.vertShaderSrc == nextState.vertShaderSrc) && (this.state.fragShaderSrc == nextState.fragShaderSrc));
 	}
 	
 	onVertexShaderChange(editor, src) 
@@ -47,13 +55,42 @@ class App extends React.Component
 		this.setState({ fragShaderSrc: src });
 	}
 
+	onCompile(status)
+	{
+		//Status box ref is null? Get outta here
+		if(this.statusBoxRef.current == null)
+			return;
+
+		//Status class
+		const statusClass = (status.compiled) ? ("pass") : ("fail");
+
+		//And status title
+		let title = (status.compiled) ? ("Compiled!") : ("Compile failed: ");
+
+		if(!status.compiled)
+		{
+			let errs = [];
+
+			if(!status.vert.compiled)
+				errs.push("Vertex");
+			
+			if(!status.frag.compiled)
+				errs.push("Fragment");
+
+			title += errs.join(" and ");
+		}
+	
+		//Set compile status
+		this.statusBoxRef.current.setCompileStatus(status, statusClass, title);
+	}
+
 	render()
 	{
 		return(
 			<main>
 				<header>
 					<img src="logos/logocol-round-lod.png" />
-					<StatusBox status="neutral" title="Compiling"></StatusBox>
+					<StatusBox ref={this.statusBoxRef}></StatusBox>
 				</header>
 				<div className="split-pane">
 					<CodeEditor tabs={["Vertex", "Fragment"]}>
@@ -61,7 +98,7 @@ class App extends React.Component
 						<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
 					</CodeEditor>
 					<aside className="threejs-view" id="threejs-mount">
-						<PreviewView vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+						<PreviewView onCompile={this.onCompile.bind(this)} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 					</aside>
 				</div>
 			</main>
