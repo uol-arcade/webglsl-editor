@@ -1,0 +1,29 @@
+
+
+.status-box
+
+    background-color: $bg-color-light-1
+    color: $fg-color-light-1
+    border-radius: 0.75rem
+    margin-right: 2rem
+    padding: 0.15rem 0.75rem
+    font-size: 1rem
+
+    span svg.spin
+        animation: spin 1s linear infinite
+
+    @keyframes spin
+        0%
+            transform: rotate(0deg)
+        
+        100%
+            transform: rotate(359deg)
+
+    span:first-child
+        margin-right: 1rem
+
+    &.fail
+        color: $accent-color-fail
+
+    &.pass
+        color: $accent-color-success

@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -22,6 +21,7 @@ import FRAG_SHADER_TEMPLATE from './glsl/templates/frag.glsl'
 import CodeEditor from './components/CodeEditor'
 import CodeEditorTab from './components/CodeEditorTab'
 import PreviewView from './components/PreviewView'
+import StatusBox from './components/StatusBox'
 
 
 class App extends React.Component
@@ -53,6 +53,7 @@ class App extends React.Component
 			<main>
 				<header>
 					<img src="logos/logocol-round-lod.png" />
+					<StatusBox status="neutral" title="Compiling"></StatusBox>
 				</header>
 				<div className="split-pane">
 					<CodeEditor tabs={["Vertex", "Fragment"]}>
