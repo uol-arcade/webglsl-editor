@@ -23,6 +23,8 @@ import CodeEditorTab from './components/CodeEditorTab'
 import PreviewView from './components/PreviewView'
 import StatusBox from './components/StatusBox'
 
+//Import config
+import config from './cfg/config.json'
 
 class App extends React.Component
 {
@@ -37,52 +39,74 @@ class App extends React.Component
 			compileStatus: { compiled: true }
 		}
 
+		this.timer = null;
 		this.statusBoxRef = React.createRef();
-	}
+		this.previewViewRef = React.createRef();
 
-	shouldComponentUpdate(nextProps, nextState)
-	{
-		return !((this.state.vertShaderSrc == nextState.vertShaderSrc) && (this.state.fragShaderSrc == nextState.fragShaderSrc));
+		this.tempVertSrc = VERT_SHADER_TEMPLATE;
+		this.tempFragSrc = FRAG_SHADER_TEMPLATE;
+
 	}
 	
+	updateVertFragState()
+	{
+		console.log("compiling..");
+
+		//Find status of compilation by compiling shader sources 
+		let status = this.previewViewRef.current.validateShaderSources(this.tempVertSrc, this.tempFragSrc);
+
+
+		//Set status of status box:
+		if(!status.compiled)
+			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "fail", "Failed");
+		else
+			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "pass", "Pass");
+
+		
+		//Update the state of this app ONLY if the shader has compiled
+		if(status.compiled)
+		{
+			console.log("state update: compiled");
+			this.setState({ vertShaderSrc: this.tempVertSrc, fragShaderSrc: this.tempFragSrc });
+		}
+	}
+
+	updateCompileTimer()
+	{
+		//Set compile status to "compiling"
+		this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "neutral", "Compiling");
+
+		//Clear the timer
+		if (this.timer) 
+		{
+			console.log("clear timer");
+
+			//Clear the timer
+			clearTimeout(this.timer);
+		}
+
+		//Set new timer
+		this.timer = setTimeout(this.updateVertFragState.bind(this), config.compileUpdateDelay);
+	}
+
 	onVertexShaderChange(editor, src) 
 	{
-		this.setState({ vertShaderSrc: src });
+		//Set src
+		this.tempVertSrc = src;
+
+		//Call update timer
+		this.updateCompileTimer();
 	}
 
 	onFragmentShaderChange(editor, src) 
 	{
-		this.setState({ fragShaderSrc: src });
+		//Set src
+		this.tempFragSrc = src;
+
+		//Call update timer
+		this.updateCompileTimer();
 	}
 
-	onCompile(status)
-	{
-		//Status box ref is null? Get outta here
-		if(this.statusBoxRef.current == null)
-			return;
-
-		//Status class
-		const statusClass = (status.compiled) ? ("pass") : ("fail");
-
-		//And status title
-		let title = (status.compiled) ? ("Compiled!") : ("Compile failed: ");
-
-		if(!status.compiled)
-		{
-			let errs = [];
-
-			if(!status.vert.compiled)
-				errs.push("Vertex");
-			
-			if(!status.frag.compiled)
-				errs.push("Fragment");
-
-			title += errs.join(" and ");
-		}
-	
-		//Set compile status
-		this.statusBoxRef.current.setCompileStatus(status, statusClass, title);
-	}
 
 	render()
 	{
@@ -90,7 +114,7 @@ class App extends React.Component
 			<main>
 				<header>
 					<img src="logos/logocol-round-lod.png" />
-					<StatusBox ref={this.statusBoxRef}></StatusBox>
+					<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
 				</header>
 				<div className="split-pane">
 					<CodeEditor tabs={["Vertex", "Fragment"]}>
@@ -98,7 +122,7 @@ class App extends React.Component
 						<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
 					</CodeEditor>
 					<aside className="threejs-view" id="threejs-mount">
-						<PreviewView onCompile={this.onCompile.bind(this)} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+						<PreviewView ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 					</aside>
 				</div>
 			</main>
