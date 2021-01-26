@@ -193,6 +193,16 @@ export default class PreviewView extends React.Component
         this.cube.material = this.material;
     }
 
+    onWheel(event)
+    {
+        const delta = event.deltaY * config.zoomMultiplier;
+
+        this.camera.translateZ(delta);
+
+        this.camera.position.z = Math.max(this.camera.position.z, config.zoomClampZMin);
+        this.camera.position.z = Math.min(this.camera.position.z, config.zoomClampZMax);
+    }
+
     render() 
     {
         //Validate sources
@@ -207,7 +217,7 @@ export default class PreviewView extends React.Component
             this.props.onCompile(status);
 
         return (
-            <div onMouseDown={this.onMouseDown.bind(this)}
+            <div onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
                 style={{ width: '100%', height: '95%' }}
                 ref={(mount) => { this.mount = mount }}
             />

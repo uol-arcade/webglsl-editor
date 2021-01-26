@@ -1,5 +1,8 @@
 {
     "compileUpdateDelay": 250,
     "autoRotateSpeed": 0.01,
-    "manualRotateSpeed": 4.0
+    "manualRotateSpeed": 4.0,
+    "zoomMultiplier": 0.001,
+    "zoomClampZMin": 2,
+    "zoomClampZMax": 15
 }

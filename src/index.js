@@ -112,9 +112,7 @@ class App extends React.Component
 	}
 
 	onBinaryToggleClick()
-	{
-		console.log("hi");
-		
+	{		
 		if(this.state.previewMode == "manual")
 			this.setState({ previewMode: "auto" });
 
