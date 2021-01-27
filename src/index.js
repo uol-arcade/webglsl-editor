@@ -131,21 +131,30 @@ class App extends React.Component
 	{
 		return(
 			<main>
-				<header>
-					<img src="logos/logocol-round-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
-					<div className="right-pane">
-						<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
-						<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
+				<aside className="left-bar">
+					<div className="top">
+						<img src="logos/logocol-round-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
 					</div>
-				</header>
-				<div className="split-pane">
-					<CodeEditor tabs={["Vertex", "Fragment"]}>
-						<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
-						<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
-					</CodeEditor>
-					<aside className="threejs-view" id={config.threeJSMountName}>
-						<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
-					</aside>
+					<div className="middle">
+						{/* <p>hello</p> */}
+					</div>
+				</aside>
+				<div className="right-view">
+					<header>
+						<div className="right-pane">
+							<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
+							<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
+						</div>
+					</header>
+					<div className="split-pane">
+						<CodeEditor tabs={["Vertex", "Fragment"]}>
+							<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
+							<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
+						</CodeEditor>
+						<aside className="threejs-view" id={config.threeJSMountName}>
+							<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+						</aside>
+					</div>
 				</div>
 			</main>
 		);

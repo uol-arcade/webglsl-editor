@@ -1,5 +1,35 @@
 
 
+main
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    height: 100%
+    
+.left-bar
+    height: 100%
+    width: 200px
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    background-color: $bg-color
+    border-right: 2px solid $bg-color-light-1
+
+    .top
+        margin-top: 2rem
+        display: flex
+        align-items: center
+        justify-content: center
+
+        img
+            width: 50px
+            height: 50px
+
+.right-view
+    height: calc(100% - 75px)
+    width: 100%
+    position: relative
+
 .split-pane
     flex-grow: 1
     display: flex
