@@ -1,4 +1,6 @@
 {
+    "projectName": "Unnamed GLSL Editor",
+    "projectVersion": "0.0.2",
     "compileUpdateDelay": 250,
     "autoRotateSpeed": 0.01,
     "manualRotateSpeed": 4.0,

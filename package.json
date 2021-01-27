@@ -1,6 +1,6 @@
 {
-  "name": "webpack-react-template",
-  "version": "1.0.0",
+  "name": "webglsl-editor",
+  "version": "0.0.2",
   "description": "",
   "main": "script-compiled.js",
   "scripts": {

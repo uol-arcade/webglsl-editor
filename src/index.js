@@ -49,7 +49,6 @@ class App extends React.Component
 
 		this.tempVertSrc = VERT_SHADER_TEMPLATE;
 		this.tempFragSrc = FRAG_SHADER_TEMPLATE;
-
 	}
 	
 	updateVertFragState()
@@ -120,12 +119,20 @@ class App extends React.Component
 			this.setState({ previewMode: "manual" });
 	}
 
+	getVersion(long=true)
+	{
+		if(long)
+			return `${config.projectVersion}-${VERSION}-${BRANCH}`;
+		else
+			return `${config.projectVersion}`;
+	}
+
 	render()
 	{
 		return(
 			<main>
 				<header>
-					<img src="logos/logocol-round-lod.png" />
+					<img src="logos/logocol-round-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
 					<div className="right-pane">
 						<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
 						<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
