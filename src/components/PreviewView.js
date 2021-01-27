@@ -28,6 +28,11 @@ export default class PreviewView extends React.Component
         this.mouseLastPos = { x: 0, y: 0 };
         this.originalRot = { };
         this.mouseDown = false;
+
+        this.uniforms = 
+        {
+            time: { value: 0.0 }
+        };
     }
 
     onWindowResize(event)
@@ -160,13 +165,28 @@ export default class PreviewView extends React.Component
             this.cube.rotation.y += config.autoRotateSpeed;
         }
 
-        this.renderScene()
-        this.frameId = window.requestAnimationFrame(this.animate)
+        //Update + pass uniforms
+        this.updateAndPassUniforms();
+
+        //Render the scene
+        this.renderScene();
+        this.frameId = window.requestAnimationFrame(this.animate);
+    }
+
+    updateAndPassUniforms()
+    {
+        //Update
+        //-------
+        this.uniforms.time.value += 1;
+
+        //Pass
+        //-------
+        this.material.uniforms = this.uniforms;
     }
 
     renderScene() 
     {
-        this.renderer.render(this.scene, this.camera)
+        this.renderer.render(this.scene, this.camera);
     }
 
     validateShaderSources(vertexSrc, fragmentSrc) 
@@ -210,7 +230,7 @@ export default class PreviewView extends React.Component
     {
         //Build shader material
         let shaderMaterial = new RawShaderMaterial({
-            uniforms: { },
+            uniforms: this.uniforms,
             vertexShader: this.props.vertexShader,
             fragmentShader: this.props.fragmentShader
         });
