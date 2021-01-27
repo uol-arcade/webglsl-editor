@@ -1,6 +1,6 @@
 import React from 'react'
 import * as THREE from 'three'
-import { RawShaderMaterial } from 'three';
+import { RawShaderMaterial, Vector2 } from 'three';
 import config from '../cfg/config.json'
 
 function WebGLShader(gl, type, string) 
@@ -28,6 +28,34 @@ export default class PreviewView extends React.Component
         this.mouseLastPos = { x: 0, y: 0 };
         this.originalRot = { };
         this.mouseDown = false;
+    }
+
+    onWindowResize(event)
+    {
+        //Find dom element
+        const domElement = event.target.document.getElementById(config.threeJSMountName);
+
+        //Assign width + height
+        const [ width, height ] = [ domElement.clientWidth, domElement.clientHeight ];
+
+        //Make new vec2
+        let rendererSize = new Vector2(width, height);
+
+        //Find render size
+        this.renderer.getSize(rendererSize);
+
+        //Check if different
+        if(rendererSize.x != width || rendererSize.y != height)
+        {
+            let aspectRatio = width / height;
+
+            //Set new size
+            this.renderer.setSize(width, height);
+
+            //Update camera aspect ratio & force update of projection matrix
+            this.camera.aspect = aspectRatio;
+            this.camera.updateProjectionMatrix();
+        }
     }
 
     componentDidMount() 
@@ -62,6 +90,7 @@ export default class PreviewView extends React.Component
 
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
+        window.addEventListener('resize', this.onWindowResize.bind(this));
 
         this.mount.appendChild(this.renderer.domElement)
         this.start()

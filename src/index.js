@@ -136,7 +136,7 @@ class App extends React.Component
 						<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
 						<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
 					</CodeEditor>
-					<aside className="threejs-view" id="threejs-mount">
+					<aside className="threejs-view" id={config.threeJSMountName}>
 						<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 					</aside>
 				</div>

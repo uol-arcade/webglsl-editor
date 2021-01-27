@@ -4,5 +4,6 @@
     "manualRotateSpeed": 4.0,
     "zoomMultiplier": 0.001,
     "zoomClampZMin": 2,
-    "zoomClampZMax": 15
+    "zoomClampZMax": 15,
+    "threeJSMountName": "threejs-mount"
 }
