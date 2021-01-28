@@ -27,7 +27,8 @@ import StatusBox from './components/StatusBox'
 import config from './cfg/config.json'
 import BinaryToggle from "./components/BinaryToggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsAlt, faRobot } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsAlt, faRobot, faCog } from "@fortawesome/free-solid-svg-icons";
+import { SideBarContent, SideBarItem } from "./components/SideBarContent";
 
 class App extends React.Component
 {
@@ -133,10 +134,13 @@ class App extends React.Component
 			<main>
 				<aside className="left-bar">
 					<div className="top">
-						<img src="logos/logocol-round-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
+						<img src="logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
 					</div>
 					<div className="middle">
-						{/* <p>hello</p> */}
+						<SideBarContent>
+							<SideBarItem icon={faCog} title="Settings" />
+							<SideBarItem icon={faArrowsAlt} title="Settings" />
+						</SideBarContent>
 					</div>
 				</aside>
 				<div className="right-view">
