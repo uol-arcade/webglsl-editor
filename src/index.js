@@ -128,6 +128,11 @@ class App extends React.Component
 			return `${config.projectVersion}`;
 	}
 
+	onSideBarSettingsClick(event)
+	{
+		alert("This feature isn't implemented yet. Sorry!");
+	}
+
 	render()
 	{
 		return(
@@ -138,8 +143,8 @@ class App extends React.Component
 					</div>
 					<div className="middle">
 						<SideBarContent>
-							<SideBarItem icon={faCog} title="Settings" />
-							<SideBarItem icon={faArrowsAlt} title="Settings" />
+							<SideBarItem onClick={this.onSideBarSettingsClick} icon={faCog} title="Settings" />
+							{/* <SideBarItem icon={faArrowsAlt} title="Settings" /> */}
 						</SideBarContent>
 					</div>
 				</aside>
