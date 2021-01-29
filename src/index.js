@@ -59,10 +59,22 @@ class App extends React.Component
 		//Find status of compilation by compiling shader sources 
 		let status = this.previewViewRef.current.validateShaderSources(this.tempVertSrc, this.tempFragSrc);
 
+		//Prepends str to each elem of array
+		const prepend = (x, str) => x.map(x => str + x);
+
+		//Prepend file
+		const fragErrors = prepend(status.frag.errors, "(frag) ");
+		const vertErrors = prepend(status.vert.errors, "(vert) ");
+
+		//Build errors array
+		const errors = [ ...fragErrors, ...vertErrors ];
+
+		//Get first error
+		const firstError = errors[0];
 
 		//Set status of status box:
 		if(!status.compiled)
-			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "fail", "Failed");
+			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "fail", firstError);
 		else
 			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "pass", "Pass");
 
@@ -133,6 +145,12 @@ class App extends React.Component
 		alert("This feature isn't implemented yet. Sorry!");
 	}
 
+	onTabChange(idx, editor)
+	{
+		//Set frag & vert shader src
+		this.setState({ fragShaderSrc: this.tempFragSrc, vertShaderSrc: this.tempVertSrc });
+	}
+
 	render()
 	{
 		return(
@@ -156,9 +174,9 @@ class App extends React.Component
 						</div>
 					</header>
 					<div className="split-pane">
-						<CodeEditor tabs={["Vertex", "Fragment"]}>
-							<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={VERT_SHADER_TEMPLATE} />
-							<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={FRAG_SHADER_TEMPLATE} />
+						<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}>
+							<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
+							<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
 						</CodeEditor>
 						<aside className="threejs-view" id={config.threeJSMountName}>
 							<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />

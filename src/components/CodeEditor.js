@@ -23,6 +23,10 @@ export default class CodeEditor extends React.Component
 
         //Otherwise set state
         this.setState({ selectedIndex: idx });
+
+        //Call external callback if needed
+        if(this.props.onTabChange)
+            this.props.onTabChange(idx, this.editorTabs[idx]);
     }
 
     getTabList()
