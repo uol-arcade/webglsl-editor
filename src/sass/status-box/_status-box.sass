@@ -21,8 +21,18 @@
         100%
             transform: rotate(359deg)
 
-    span:first-child
+
+    span.error-count p 
+        color: $accent-color-fail
+        border-radius: 2rem
+        font-weight: bold
+        display: inline
+
+    span:not(:last-child)
         margin-right: 1rem
+
+    span:first-child
+        margin-right: 0.5rem
 
     &.fail
         color: $accent-color-fail

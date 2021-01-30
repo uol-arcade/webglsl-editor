@@ -77,7 +77,7 @@ class App extends React.Component
 
 		//Set status of status box:
 		if(!status.compiled)
-			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "fail", firstError);
+			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "fail", firstError, errors.length);
 		else
 			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "pass", "Pass");
 

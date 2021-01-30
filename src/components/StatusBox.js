@@ -11,17 +11,18 @@ export default class StatusBox extends React.Component
 
         this.state = {
             status: "pass",
-            title: "Pass"
+            title: "Pass",
+            errorCount: 0
         }
 
         this.statusObj = {};
     }
 
-    setCompileStatus(statusObj, status, title)
+    setCompileStatus(statusObj, status, title, amountofErrors = 0)
     {
         this.statusObj = statusObj;
 
-        this.setState({ status: status, title: title });
+        this.setState({ status: status, title: title, errorCount: amountofErrors });
     }
     
     getIconFromStatus(status)
@@ -48,9 +49,15 @@ export default class StatusBox extends React.Component
         if(this.state.status)
             className = this.state.status;
 
+        let errorCountElement = null;
+
+        if(this.state.errorCount > 0)
+            errorCountElement = <span className="error-count"><p>{this.state.errorCount}</p></span>;
+
         return (
             <div title="Compile Status" className={`status-box ${className}`}>
                 <span>{this.getIconFromStatus(this.state.status)}</span>
+                {errorCountElement}
                 <span>{this.state.title}</span>
             </div>
         );
