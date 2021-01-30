@@ -81,14 +81,13 @@ export default class PreviewView extends React.Component
             1000
         )
         
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-        const geometry = new THREE.BoxGeometry(1, 1, 1)
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
         
-        const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
-        const cube = new THREE.Mesh(geometry, material)
+        const material = new THREE.MeshBasicMaterial({ color: '#433F81' });
+        const object = new THREE.Mesh(geometry, material);
 
-        camera.position.z = 4
-        scene.add(cube)
+        camera.position.z = 2
         renderer.setClearColor(0x000000, 0)
         renderer.setSize(width, height)
 
@@ -96,9 +95,26 @@ export default class PreviewView extends React.Component
         this.camera = camera
         this.renderer = renderer
         this.material = material
-        this.cube = cube
+        this.object = object;
 
-        this.loader.load('assets/obj/bunny.obj', (x => this.scene.add(x)).bind(this), x => console.log(x.loaded / x.total), e => console.log(error));
+        const onObjectLoaded = (x) =>
+        {
+            x.traverse(x => {
+                if(x instanceof THREE.Mesh)
+                {
+                    x.material = this.material;
+                    // x.material.flatShading = true;
+                }
+            });
+
+            x.material = this.material;
+            x.position.set(0, 0, 0);
+            
+            this.scene.add(x);
+            this.object = x;
+        };
+
+        this.loader.load('assets/obj/bunny_fixed.obj', onObjectLoaded.bind(this), x => console.log(x.loaded / x.total), e => console.log(error));
 
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
@@ -138,8 +154,8 @@ export default class PreviewView extends React.Component
             const mouseXDelta = (this.mousePos.x - this.mouseLastPos.x) / screen.height;
             const mouseYDelta = (this.mousePos.y - this.mouseLastPos.y) / screen.height;
 
-            this.cube.rotation.x += mouseYDelta * config.manualRotateSpeed;
-            this.cube.rotation.y += mouseXDelta * config.manualRotateSpeed;
+            this.object.rotation.x += mouseYDelta * config.manualRotateSpeed;
+            this.object.rotation.y += mouseXDelta * config.manualRotateSpeed;
         }
 
         this.mouseLastPos.x = this.mousePos.x;
@@ -155,7 +171,7 @@ export default class PreviewView extends React.Component
             y: event.screenY
         };
 
-        this.originalRot = this.cube.rotation;
+        this.originalRot = this.object.rotation;
     }
 
     onMouseUp(event)
@@ -166,10 +182,13 @@ export default class PreviewView extends React.Component
 
     animate() 
     {
+        if(this.object == null)
+            return;
+
         if(this.props.mode != "manual")
         {
-            this.cube.rotation.x += config.autoRotateSpeed;
-            this.cube.rotation.y += config.autoRotateSpeed;
+            this.object.rotation.x += config.autoRotateSpeed;
+            this.object.rotation.y += config.autoRotateSpeed;
         }
 
         //Update + pass uniforms
@@ -235,6 +254,9 @@ export default class PreviewView extends React.Component
 
     updateShaderMaterial()
     {
+        if(this.object == null)
+            return;
+
         //Build shader material
         let shaderMaterial = new RawShaderMaterial({
             uniforms: this.uniforms,
@@ -246,7 +268,13 @@ export default class PreviewView extends React.Component
         this.material = shaderMaterial;
 
         //Set mesh material to this
-        this.cube.material = this.material;
+        this.object.traverse(x => {
+            if(x instanceof THREE.Mesh)
+            {
+                x.material = this.material;
+                // x.material.flatShading = true;
+            }
+        });
     }
 
     onWheel(event)
