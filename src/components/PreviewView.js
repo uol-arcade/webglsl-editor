@@ -1,6 +1,8 @@
 import React from 'react'
 import * as THREE from 'three'
 import { RawShaderMaterial, Vector2 } from 'three';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+
 import config from '../cfg/config.json'
 
 function WebGLShader(gl, type, string) 
@@ -33,6 +35,9 @@ export default class PreviewView extends React.Component
         {
             time: { value: 0.0 }
         };
+
+        //Make the loader
+        this.loader = new OBJLoader();
     }
 
     onWindowResize(event)
@@ -92,6 +97,8 @@ export default class PreviewView extends React.Component
         this.renderer = renderer
         this.material = material
         this.cube = cube
+
+        this.loader.load('assets/obj/bunny.obj', (x => this.scene.add(x)).bind(this), x => console.log(x.loaded / x.total), e => console.log(error));
 
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));

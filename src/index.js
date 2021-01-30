@@ -192,7 +192,7 @@ class App extends React.Component
 			<main>
 				<aside className="left-bar">
 					<div className="top">
-						<img src="logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
+						<img src="assets/logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
 					</div>
 					<div className="middle">
 						<SideBarContent>
