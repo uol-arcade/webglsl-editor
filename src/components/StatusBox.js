@@ -36,6 +36,11 @@ export default class StatusBox extends React.Component
             return <FontAwesomeIcon className="spin" icon={faCog}/>            
     }
 
+    setErrors(errors)
+    {
+        // console.log(errors);
+    }
+
     render()
     {
         let className = "neutral";

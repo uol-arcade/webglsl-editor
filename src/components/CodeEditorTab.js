@@ -26,8 +26,14 @@ export default class CodeEditorTab extends React.Component
             this.props.onChange(this.props.title, this.src);
     }
 
+
     getRenderedEditor()
     {
+        this.props.errors?.forEach(x => {
+           x.type = 'error';
+           x.row -= 1;
+        });
+
         return (
             <AceEditor
                 className="ace-editor"
@@ -37,6 +43,9 @@ export default class CodeEditorTab extends React.Component
                 onChange={this.onChange.bind(this)}
                 name="glsl_code_editor"
                 fontSize={16}
+                showError={true}
+                highlightActiveLine={true}
+                annotations={this.props.errors}
                 setOptions={{
                     enableBasicAutocompletion: true,
                     enableLiveAutocompletion: true,

@@ -41,12 +41,15 @@ class App extends React.Component
 			vertShaderSrc: VERT_SHADER_TEMPLATE,
 			fragShaderSrc: FRAG_SHADER_TEMPLATE,
 			compileStatus: { compiled: true },
-			previewMode: "manual"
+			previewMode: "manual",
+			errors: {}
 		}
 
 		this.timer = null;
 		this.statusBoxRef = React.createRef();
 		this.previewViewRef = React.createRef();
+		this.fragTabRef = React.createRef();
+		this.vertTabRef = React.createRef();
 
 		this.tempVertSrc = VERT_SHADER_TEMPLATE;
 		this.tempFragSrc = FRAG_SHADER_TEMPLATE;
@@ -78,12 +81,44 @@ class App extends React.Component
 		else
 			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "pass", "Pass");
 
+		if(!status.compiled)
+		{
+			const errorMsgToObject = x => x.map(y => 
+			{
+				const groups = y.match(/^ERROR:\s*(\d+?)\:(\d+?)\:/);
+
+				return {
+					column: +groups[1],
+					row: +groups[2],
+					text: y
+				};
+			});
+
+			//All errors
+			let allErrors = [ ...status.frag.errors, ...status.vert.errors ];
+
+			//Map errors to objects
+			let mappedErrors = errorMsgToObject(allErrors);
+
+			//Map frag & vert errors
+			let editorErrors = {
+				vert: errorMsgToObject(status.vert.errors),
+				frag: errorMsgToObject(status.frag.errors)
+			};
+
+			//Set errors
+			this.statusBoxRef.current.setErrors(mappedErrors);
+
+			//Set errors for editor
+			this.setState({ errors: editorErrors });
+		}
+
 		
 		//Update the state of this app ONLY if the shader has compiled
 		if(status.compiled)
 		{
 			console.log("state update: compiled");
-			this.setState({ vertShaderSrc: this.tempVertSrc, fragShaderSrc: this.tempFragSrc });
+			this.setState({ vertShaderSrc: this.tempVertSrc, fragShaderSrc: this.tempFragSrc, errors: [] });
 		}
 	}
 
@@ -175,8 +210,8 @@ class App extends React.Component
 					</header>
 					<div className="split-pane">
 						<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}>
-							<CodeEditorTab onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
-							<CodeEditorTab onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
+							<CodeEditorTab errors={this.state.errors?.vert} onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
+							<CodeEditorTab errors={this.state.errors?.frag} onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
 						</CodeEditor>
 						<aside className="threejs-view" id={config.threeJSMountName}>
 							<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
