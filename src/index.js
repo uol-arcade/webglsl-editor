@@ -29,6 +29,7 @@ import BinaryToggle from "./components/BinaryToggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsAlt, faRobot, faCog } from "@fortawesome/free-solid-svg-icons";
 import { SideBarContent, SideBarItem } from "./components/SideBarContent";
+import SettingsPane from "./components/left-side-pane/SettingsPane";
 
 class App extends React.Component
 {
@@ -42,7 +43,8 @@ class App extends React.Component
 			fragShaderSrc: FRAG_SHADER_TEMPLATE,
 			compileStatus: { compiled: true },
 			previewMode: "manual",
-			errors: {}
+			errors: {},
+			leftSidePaneMode: null
 		}
 
 		this.timer = null;
@@ -178,6 +180,7 @@ class App extends React.Component
 	onSideBarSettingsClick(event)
 	{
 		alert("This feature isn't implemented yet. Sorry!");
+		// this.setState({ leftSidePaneMode: (this.state.leftSidePaneMode == "settings") ? (null) : ("settings") });
 	}
 
 	onTabChange(idx, editor)
@@ -186,19 +189,35 @@ class App extends React.Component
 		this.setState({ fragShaderSrc: this.tempFragSrc, vertShaderSrc: this.tempVertSrc });
 	}
 
+	getLeftSidePane()
+	{
+		console.log("get panel");
+
+		//Settings? show settings
+		if(this.state.leftSidePaneMode == "settings")
+			return <SettingsPane />
+
+		return null;
+	}
+
 	render()
 	{
 		return(
 			<main>
 				<aside className="left-bar">
-					<div className="top">
-						<img src="assets/logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
+					<div className="left-side">
+						<div className="top">
+							<img src="assets/logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
+						</div>
+						<div className="middle">
+							<SideBarContent>
+								<SideBarItem onClick={this.onSideBarSettingsClick.bind(this)} icon={faCog} title="Settings" />
+								{/* <SideBarItem icon={faArrowsAlt} title="Settings" /> */}
+							</SideBarContent>
+						</div>
 					</div>
-					<div className="middle">
-						<SideBarContent>
-							<SideBarItem onClick={this.onSideBarSettingsClick} icon={faCog} title="Settings" />
-							{/* <SideBarItem icon={faArrowsAlt} title="Settings" /> */}
-						</SideBarContent>
+					<div className="right-side">
+						{this.getLeftSidePane()}
 					</div>
 				</aside>
 				<div className="right-view">
