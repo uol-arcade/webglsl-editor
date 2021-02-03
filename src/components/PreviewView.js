@@ -43,7 +43,7 @@ export default class PreviewView extends React.Component
     onWindowResize(event)
     {
         //Find dom element
-        const domElement = event.target.document.getElementById(config.threeJSMountName);
+        const domElement = document.getElementById(config.threeJSMountName);
 
         //Assign width + height
         const [ width, height ] = [ domElement.clientWidth, domElement.clientHeight ];
@@ -119,6 +119,8 @@ export default class PreviewView extends React.Component
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
         window.addEventListener('resize', this.onWindowResize.bind(this));
+
+        this.onWindowResize({});
 
         this.mount.appendChild(this.renderer.domElement)
         this.start()

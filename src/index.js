@@ -179,8 +179,8 @@ class App extends React.Component
 
 	onSideBarSettingsClick(event)
 	{
-		alert("This feature isn't implemented yet. Sorry!");
-		// this.setState({ leftSidePaneMode: (this.state.leftSidePaneMode == "settings") ? (null) : ("settings") });
+		// alert("This feature isn't implemented yet. Sorry!");
+		this.setState({ leftSidePaneMode: (this.state.leftSidePaneMode == "settings") ? (null) : ("settings") });
 	}
 
 	onTabChange(idx, editor)
