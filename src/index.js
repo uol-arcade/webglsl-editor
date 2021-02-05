@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+//Redux
+import { Provider, useSelector, useDispatch } from 'react-redux'
+import store from './redux/store'
+
 //ACE
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-glsl";
@@ -30,6 +34,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsAlt, faRobot, faCog } from "@fortawesome/free-solid-svg-icons";
 import { SideBarContent, SideBarItem } from "./components/SideBarContent";
 import SettingsPane from "./components/left-side-pane/SettingsPane";
+
 
 class App extends React.Component
 {
@@ -203,41 +208,43 @@ class App extends React.Component
 	render()
 	{
 		return(
-			<main>
-				<aside className="left-bar">
-					<div className="left-side">
-						<div className="top">
-							<img src="assets/logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
+			<Provider store={store}>
+				<main>
+					<aside className="left-bar">
+						<div className="left-side">
+							<div className="top">
+								<img src="assets/logos/logomono-lod.png" title={`${config.projectName}\n${this.getVersion()}`} />
+							</div>
+							<div className="middle">
+								<SideBarContent>
+									<SideBarItem onClick={this.onSideBarSettingsClick.bind(this)} icon={faCog} title="Settings" />
+									{/* <SideBarItem icon={faArrowsAlt} title="Settings" /> */}
+								</SideBarContent>
+							</div>
 						</div>
-						<div className="middle">
-							<SideBarContent>
-								<SideBarItem onClick={this.onSideBarSettingsClick.bind(this)} icon={faCog} title="Settings" />
-								{/* <SideBarItem icon={faArrowsAlt} title="Settings" /> */}
-							</SideBarContent>
+						<div className="right-side">
+							{this.getLeftSidePane()}
+						</div>
+					</aside>
+					<div className="right-view">
+						<header>
+							<div className="right-pane">
+								<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
+								<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
+							</div>
+						</header>
+						<div className="split-pane">
+							<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}>
+								<CodeEditorTab errors={this.state.errors?.vert} onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
+								<CodeEditorTab errors={this.state.errors?.frag} onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
+							</CodeEditor>
+							<aside className="threejs-view" id={config.threeJSMountName}>
+								<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+							</aside>
 						</div>
 					</div>
-					<div className="right-side">
-						{this.getLeftSidePane()}
-					</div>
-				</aside>
-				<div className="right-view">
-					<header>
-						<div className="right-pane">
-							<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
-							<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
-						</div>
-					</header>
-					<div className="split-pane">
-						<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}>
-							<CodeEditorTab errors={this.state.errors?.vert} onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
-							<CodeEditorTab errors={this.state.errors?.frag} onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
-						</CodeEditor>
-						<aside className="threejs-view" id={config.threeJSMountName}>
-							<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
-						</aside>
-					</div>
-				</div>
-			</main>
+				</main>
+			</Provider>
 		);
 	}
 }

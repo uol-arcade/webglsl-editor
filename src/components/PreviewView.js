@@ -36,6 +36,7 @@ export default class PreviewView extends React.Component
             time: { value: 0.0 }
         };
 
+
         //Make the loader
         this.loader = new OBJLoader();
     }
