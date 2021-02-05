@@ -47,7 +47,6 @@ class App extends React.Component
 			vertShaderSrc: VERT_SHADER_TEMPLATE,
 			fragShaderSrc: FRAG_SHADER_TEMPLATE,
 			compileStatus: { compiled: true },
-			previewMode: "manual",
 			errors: {},
 			leftSidePaneMode: null
 		}
@@ -236,10 +235,7 @@ class App extends React.Component
 							</div>
 						</header>
 						<div className="split-pane">
-							<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}>
-								<CodeEditorTab errors={this.state.errors?.vert} onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
-								<CodeEditorTab errors={this.state.errors?.frag} onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
-							</CodeEditor>
+							<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}/>
 							<aside className="threejs-view" id={config.threeJSMountName}>
 								<PreviewView mode={this.props.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 							</aside>
