@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 //Redux
-import { Provider, useSelector, useDispatch } from 'react-redux'
+import { Provider, useSelector, useDispatch, connect } from 'react-redux'
 import store from './redux/store'
 
 //ACE
@@ -207,6 +207,8 @@ class App extends React.Component
 
 	render()
 	{
+		console.log(this.props.previewMode);
+
 		return(
 			<Provider store={store}>
 				<main>
@@ -230,7 +232,7 @@ class App extends React.Component
 						<header>
 							<div className="right-pane">
 								<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
-								<BinaryToggle onClick={this.onBinaryToggleClick.bind(this)} selected={this.state.previewMode} keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
+								<BinaryToggle keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
 							</div>
 						</header>
 						<div className="split-pane">
@@ -239,7 +241,7 @@ class App extends React.Component
 								<CodeEditorTab errors={this.state.errors?.frag} onChange={this.onFragmentShaderChange.bind(this)} title="Fragment" defaultSrc={this.tempFragSrc} />
 							</CodeEditor>
 							<aside className="threejs-view" id={config.threeJSMountName}>
-								<PreviewView mode={this.state.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+								<PreviewView mode={this.props.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 							</aside>
 						</div>
 					</div>
@@ -248,5 +250,6 @@ class App extends React.Component
 		);
 	}
 }
+
 
 ReactDOM.render(<App />, document.getElementById("AppContainer"));

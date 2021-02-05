@@ -1,9 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import * as THREE from 'three'
 import { RawShaderMaterial, Vector2 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 
 import config from '../cfg/config.json'
+import { getPreviewMode } from '../redux/selectors';
 
 function WebGLShader(gl, type, string) 
 {
@@ -15,7 +18,7 @@ function WebGLShader(gl, type, string)
     return shader;
 }
 
-export default class PreviewView extends React.Component 
+class PreviewView extends React.Component 
 {
     constructor(props) 
     {
@@ -188,7 +191,7 @@ export default class PreviewView extends React.Component
         if(this.object == null)
             return;
 
-        if(this.props.mode != "manual")
+        if(this.props.previewMode != "manual")
         {
             this.object.rotation.x += config.autoRotateSpeed;
             this.object.rotation.y += config.autoRotateSpeed;
@@ -311,3 +314,14 @@ export default class PreviewView extends React.Component
         )
     }
 }
+
+
+const mapStateToProps = store =>
+{
+    //Get preview mode
+    const previewMode = getPreviewMode(store);
+
+    return { previewMode };
+}
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(PreviewView);

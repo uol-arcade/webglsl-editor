@@ -1,3 +1,4 @@
+import { PREVIEW_VIEW_TOGGLE_TOGGLED } from '../actionTypes'
 
 const setPreviewMode = (state, mode) => 
 {
@@ -13,17 +14,17 @@ export const APP_INITIAL_STATE =
     previewMode: "manual"
 }
 
-import { createSlice } from '@reduxjs/toolkit'
-
-
-export default function appReducer(state = APP_INITIAL_STATE, action) 
+export default function(state = APP_INITIAL_STATE, action) 
 {
-    if(action.type == 'previewMode/togglePreviewMode')
+    if (action.type == PREVIEW_VIEW_TOGGLE_TOGGLED)
     {
+        //It's manual? Set to auto
         if(state.previewMode == "manual")
-            return setPreviewMode('auto');
+            return setPreviewMode(state, 'auto');
+
+        //And vice-versa...
         else
-            return setPreviewMode('manual');
+            return setPreviewMode(state, 'manual');
     }
 
     return state;
