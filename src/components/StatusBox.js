@@ -51,7 +51,6 @@ class StatusBox extends React.Component
             return this.props.errors.length;
     }
 
-
     render()
     {
         //Get status from compile status

@@ -1,0 +1,14 @@
+import React from 'react'
+
+export class Checkbox extends React.Component
+{
+    constructor(props)
+    {
+        super(props);
+    }
+
+    render()
+    {
+        return <h1>hello</h1>;
+    }
+}

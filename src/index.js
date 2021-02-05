@@ -48,11 +48,10 @@ class App extends React.Component
 		}
 
 		this.timer = null;
-		this.previewViewRef = React.createRef();
 		this.fragTabRef = React.createRef();
 		this.vertTabRef = React.createRef();
 	}
-	
+
 	getVersion(long=true)
 	{
 		if(long)
@@ -69,8 +68,6 @@ class App extends React.Component
 
 	getLeftSidePane()
 	{
-		console.log("get panel");
-
 		//Settings? show settings
 		if(this.state.leftSidePaneMode == "settings")
 			return <SettingsPane />
@@ -109,7 +106,7 @@ class App extends React.Component
 						<div className="split-pane">
 							<CodeEditor tabs={["Vertex", "Fragment"]}/>
 							<aside className="threejs-view" id={config.threeJSMountName}>
-								<PreviewView mode={this.props.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
+								<PreviewView />
 							</aside>
 						</div>
 					</div>
