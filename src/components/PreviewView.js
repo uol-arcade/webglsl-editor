@@ -7,8 +7,8 @@ import { RawShaderMaterial, Vector2 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 
 import config from '../cfg/config.json'
-import { getPreviewMode } from '../redux/selectors';
-
+import * as selectors from '../redux/selectors';
+import * as GLSLCompiler from '../glsl/compiler/GLSLCompiler'
 
 function WebGLShader(gl, type, string) 
 {
@@ -29,7 +29,6 @@ class PreviewView extends React.Component
         this.start = this.start.bind(this)
         this.stop = this.stop.bind(this)
         this.animate = this.animate.bind(this)
-        this.validateShaderSources = this.validateShaderSources.bind(this)
 
         this.mousePos = { x: 0, y: 0 };
         this.mouseLastPos = { x: 0, y: 0 };
@@ -225,43 +224,6 @@ class PreviewView extends React.Component
         this.renderer.render(this.scene, this.camera);
     }
 
-    validateShaderSources(vertexSrc, fragmentSrc) 
-    {
-        //Renderer is somehow null? get out of here
-        if(this.renderer == null)
-            return { compiled: false };
-
-        //Get GL
-        const gl = this.renderer.getContext();
-
-        //Make vert/frag shaders
-        const glVertShader = new WebGLShader(gl, gl.VERTEX_SHADER,   vertexSrc);
-        const glFragShader = new WebGLShader(gl, gl.FRAGMENT_SHADER, fragmentSrc);
-
-        //Get logs
-        const vertLog = gl.getShaderInfoLog(glVertShader);
-        const fragLog = gl.getShaderInfoLog(glFragShader);
-
-        //Bools for whether or not there were errors
-        const fragErrors = fragLog !== "";
-        const vertErrors = vertLog !== "";
-        //--
-        const errorLinesFromLog = log => log.split('\n').filter(x => x.match(/\s+/));
-
-        //Return status
-        return {
-            compiled: !(fragErrors || vertErrors),
-            frag: {
-                compiled: !fragErrors,
-                errors: errorLinesFromLog(fragLog)
-            },
-            vert: {
-                compiled: !vertErrors,
-                errors: errorLinesFromLog(vertLog)
-            }
-        };
-    }
-
     updateShaderMaterial()
     {
         if(this.object == null)
@@ -270,8 +232,8 @@ class PreviewView extends React.Component
         //Build shader material
         let shaderMaterial = new RawShaderMaterial({
             uniforms: this.uniforms,
-            vertexShader: this.props.vertexShader,
-            fragmentShader: this.props.fragmentShader
+            vertexShader: this.props.vertSrc,
+            fragmentShader: this.props.fragSrc
         });
 
         //Update material
@@ -299,17 +261,11 @@ class PreviewView extends React.Component
 
     render() 
     {
-        //Validate sources
-        const status = this.validateShaderSources(this.props.vertexShader, this.props.fragmentShader);
-
-        //Compiled? Update material & attach
-        if(status.compiled)
+        //Passed compiling? Update shader material
+        if(this.props.compileStatus == GLSLCompiler.COMPILE_STATUS_PASS)
             this.updateShaderMaterial();
 
-        //Call compile update
-        if(this.props.onCompile)
-            this.props.onCompile(status);
-
+        //Render the canvas
         return (
             <div onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
                 style={{ width: '100%', height: '95%' }}
@@ -322,10 +278,12 @@ class PreviewView extends React.Component
 
 const mapStateToProps = store =>
 {
-    //Get preview mode
-    const previewMode = getPreviewMode(store);
-
-    return { previewMode };
+    return { 
+        previewMode:   selectors.getPreviewMode(store),
+        compileStatus: selectors.getCompileStatus(store),
+        vertSrc: selectors.getVertSrc(store),
+        fragSrc: selectors.getFragSrc(store)
+    };
 }
 
 export default connect(mapStateToProps, { threejsUpdateRenderer }, null, { forwardRef: true })(PreviewView);

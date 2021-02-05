@@ -132,24 +132,10 @@ class CodeEditor extends React.Component
 
                     // console.log(this.props.detailedErrors)
 
-                    return <CodeEditorTab errors={this.props.errors[tab]} key={tab} onChange={this.onEditorChangeSrc.bind(this)} title={tab} defaultSrc={this.props.src[tab]} />
+                    return <CodeEditorTab errors={this.props.errors[tab]} key={tab} title={tab} onChange={this.onEditorChangeSrc.bind(this)} title={tab} defaultSrc={this.props.src[tab]} />
                 })}
             </div>
         );
-
-        // return (
-        //     <div className="code-editor">
-        //         <ul>{this.getTabList()}</ul>
-        //         {this.props.children.map(((child, index) => 
-        //         {
-        //             if(index != this.state.selectedIndex) 
-        //                 return undefined;
-
-        //             return child;
-        //         }).bind(this))}
-        //     </div>
-        // );
-        //// <CodeEditorTab errors={this.state.errors?.vert} onChange={this.onVertexShaderChange.bind(this)}   title="Vertex"   defaultSrc={this.tempVertSrc} />
     }
 }
 

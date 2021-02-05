@@ -88,7 +88,7 @@ export default function(state = APP_INITIAL_STATE, action)
         return setThreeJSRenderer(state, action.payload.renderer);
 
     if(action.type == actionTypes.EDITOR_UPDATE_COMPILE_STATUS)
-        return setCompileStatus(state, status);
+        return setCompileStatus(state, action.payload.status);
 
 
     return state;

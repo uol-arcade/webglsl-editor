@@ -1,65 +1,94 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import * as selectors from '../redux/selectors'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faCog, faTimes } from '@fortawesome/free-solid-svg-icons'
 
+import * as GLSLCompiler from '../glsl/compiler/GLSLCompiler'
 
-export default class StatusBox extends React.Component
+const STATUS_BOX_DATA = 
+{
+    [GLSLCompiler.COMPILE_STATUS_FAIL]:
+    {
+        icon: <FontAwesomeIcon icon={faTimes} />,
+        className: "fail",
+        title: "Failed"
+    },
+
+    [GLSLCompiler.COMPILE_STATUS_PASS]:
+    {
+        icon: <FontAwesomeIcon icon={faCheck} />,
+        className: "pass",
+        title: "Pass"
+    },
+
+    [GLSLCompiler.COMPILE_STATUS_COMPILING]:
+    {
+        icon: <FontAwesomeIcon className="spin" icon={faCog} />,
+        className: "neutral",
+        title: "Compiling..."
+    }
+}
+
+class StatusBox extends React.Component
 {
     constructor(props)
     {
         super(props);
-
-        this.state = {
-            status: "pass",
-            title: "Pass",
-            errorCount: 0
-        }
-
-        this.statusObj = {};
     }
 
-    setCompileStatus(statusObj, status, title, amountofErrors = 0)
+    getDataFromCompileStatus(status)
     {
-        this.statusObj = statusObj;
-
-        this.setState({ status: status, title: title, errorCount: amountofErrors });
+        return STATUS_BOX_DATA[status];
     }
-    
-    getIconFromStatus(status)
-    {
-        if(status == "fail")
-            return <FontAwesomeIcon icon={faTimes}/>
-            
-        else if(status == "pass")
-            return <FontAwesomeIcon icon={faCheck}/>
 
+    getErrorCount()
+    {
+        if(!this.props.errors)
+            return 0;
         else
-            return <FontAwesomeIcon className="spin" icon={faCog}/>            
+            return this.props.errors.length;
     }
 
-    setErrors(errors)
-    {
-        // console.log(errors);
-    }
 
     render()
     {
-        let className = "neutral";
+        //Get status from compile status
+        const compileStatusData = this.getDataFromCompileStatus(this.props.compileStatus);
 
-        if(this.state.status)
-            className = this.state.status;
-
+        //Error counter element is null initially
         let errorCountElement = null;
+        
+        //Get title
+        let title = compileStatusData.title;
 
-        if(this.state.errorCount > 0)
-            errorCountElement = <span className="error-count"><p>{this.state.errorCount}</p></span>;
+        //More than 0 errors? Show a little count
+        if(this.props.compileStatus === GLSLCompiler.COMPILE_STATUS_FAIL && this.getErrorCount() > 0)
+        {
+            //Show a count
+            errorCountElement = <span className="error-count"><p>{this.getErrorCount()}</p></span>;
+
+            //And change title to first error
+            title = this.props.errors[0];
+        }
 
         return (
-            <div title="Compile Status" className={`status-box ${className}`}>
-                <span>{this.getIconFromStatus(this.state.status)}</span>
+            <div title="Compile Status" className={`status-box ${compileStatusData.className}`}>
+                <span>{compileStatusData.icon}</span>
                 {errorCountElement}
-                <span>{this.state.title}</span>
+                <span>{title}</span>
             </div>
         );
     }
 }
+
+const mapStateToProps = store =>
+{
+    return { 
+        errors:        selectors.getPrettyErrors(store),
+        compileStatus: selectors.getCompileStatus(store)
+    };
+}
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(StatusBox);

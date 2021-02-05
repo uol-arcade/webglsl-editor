@@ -44,133 +44,15 @@ class App extends React.Component
 
 		this.state = 
 		{
-			vertShaderSrc: VERT_SHADER_TEMPLATE,
-			fragShaderSrc: FRAG_SHADER_TEMPLATE,
-			compileStatus: { compiled: true },
-			errors: {},
 			leftSidePaneMode: null
 		}
 
 		this.timer = null;
-		this.statusBoxRef = React.createRef();
 		this.previewViewRef = React.createRef();
 		this.fragTabRef = React.createRef();
 		this.vertTabRef = React.createRef();
-
-		this.tempVertSrc = VERT_SHADER_TEMPLATE;
-		this.tempFragSrc = FRAG_SHADER_TEMPLATE;
 	}
 	
-	updateVertFragState()
-	{
-		console.log("compiling..");
-
-		//Find status of compilation by compiling shader sources 
-		let status = this.previewViewRef.current.validateShaderSources(this.tempVertSrc, this.tempFragSrc);
-
-		//Prepends str to each elem of array
-		const prepend = (x, str) => x.map(x => str + x);
-
-		//Prepend file
-		const fragErrors = prepend(status.frag.errors, "(frag) ");
-		const vertErrors = prepend(status.vert.errors, "(vert) ");
-
-		//Build errors array
-		const errors = [ ...fragErrors, ...vertErrors ];
-
-		//Get first error
-		const firstError = errors[0];
-
-		//Set status of status box:
-		if(!status.compiled)
-			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "fail", firstError, errors.length);
-		else
-			this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "pass", "Pass");
-
-		if(!status.compiled)
-		{
-			const errorMsgToObject = x => x.map(y => 
-			{
-				const groups = y.match(/^ERROR:\s*(\d+?)\:(\d+?)\:/);
-
-				return {
-					column: +groups[1],
-					row: +groups[2],
-					text: y
-				};
-			});
-
-			//All errors
-			let allErrors = [ ...status.frag.errors, ...status.vert.errors ];
-
-			//Map errors to objects
-			let mappedErrors = errorMsgToObject(allErrors);
-
-			//Map frag & vert errors
-			let editorErrors = {
-				vert: errorMsgToObject(status.vert.errors),
-				frag: errorMsgToObject(status.frag.errors)
-			};
-
-			//Set errors
-			this.statusBoxRef.current.setErrors(mappedErrors);
-
-			//Set errors for editor
-			this.setState({ errors: editorErrors });
-		}
-
-		
-		//Update the state of this app ONLY if the shader has compiled
-		if(status.compiled)
-		{
-			console.log("state update: compiled");
-			this.setState({ vertShaderSrc: this.tempVertSrc, fragShaderSrc: this.tempFragSrc, errors: [] });
-		}
-	}
-
-	updateCompileTimer()
-	{
-		//Set compile status to "compiling"
-		this.statusBoxRef.current.setCompileStatus(this.state.compileStatus, "neutral", "Compiling");
-
-		//Clear the timer
-		if (this.timer) 
-		{
-			//Clear the timer
-			clearTimeout(this.timer);
-		}
-
-		//Set new timer
-		this.timer = setTimeout(this.updateVertFragState.bind(this), config.compileUpdateDelay);
-	}
-
-	onVertexShaderChange(editor, src) 
-	{
-		//Set src
-		this.tempVertSrc = src;
-
-		//Call update timer
-		this.updateCompileTimer();
-	}
-
-	onFragmentShaderChange(editor, src) 
-	{
-		//Set src
-		this.tempFragSrc = src;
-
-		//Call update timer
-		this.updateCompileTimer();
-	}
-
-	onBinaryToggleClick()
-	{		
-		if(this.state.previewMode == "manual")
-			this.setState({ previewMode: "auto" });
-
-		else
-			this.setState({ previewMode: "manual" });
-	}
-
 	getVersion(long=true)
 	{
 		if(long)
@@ -198,8 +80,6 @@ class App extends React.Component
 
 	render()
 	{
-		console.log(this.props.previewMode);
-
 		return(
 			<Provider store={store}>
 				<main>
@@ -222,7 +102,7 @@ class App extends React.Component
 					<div className="right-view">
 						<header>
 							<div className="right-pane">
-								<StatusBox status={this.state.statusBoxStatus} ref={this.statusBoxRef}></StatusBox>
+								<StatusBox />
 								<BinaryToggle keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
 							</div>
 						</header>
