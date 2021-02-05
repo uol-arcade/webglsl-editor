@@ -136,8 +136,6 @@ class App extends React.Component
 		//Clear the timer
 		if (this.timer) 
 		{
-			console.log("clear timer");
-
 			//Clear the timer
 			clearTimeout(this.timer);
 		}
@@ -187,12 +185,6 @@ class App extends React.Component
 		this.setState({ leftSidePaneMode: (this.state.leftSidePaneMode == "settings") ? (null) : ("settings") });
 	}
 
-	onTabChange(idx, editor)
-	{
-		//Set frag & vert shader src
-		this.setState({ fragShaderSrc: this.tempFragSrc, vertShaderSrc: this.tempVertSrc });
-	}
-
 	getLeftSidePane()
 	{
 		console.log("get panel");
@@ -235,7 +227,7 @@ class App extends React.Component
 							</div>
 						</header>
 						<div className="split-pane">
-							<CodeEditor onTabChange={this.onTabChange.bind(this)} tabs={["Vertex", "Fragment"]}/>
+							<CodeEditor tabs={["Vertex", "Fragment"]}/>
 							<aside className="threejs-view" id={config.threeJSMountName}>
 								<PreviewView mode={this.props.previewMode} ref={this.previewViewRef} vertexShader={this.state.vertShaderSrc} fragmentShader={this.state.fragShaderSrc} />
 							</aside>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { threejsUpdateRenderer } from '../redux/actions'
 
 import * as THREE from 'three'
 import { RawShaderMaterial, Vector2 } from 'three';
@@ -7,6 +8,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 
 import config from '../cfg/config.json'
 import { getPreviewMode } from '../redux/selectors';
+
 
 function WebGLShader(gl, type, string) 
 {
@@ -100,6 +102,8 @@ class PreviewView extends React.Component
         this.renderer = renderer
         this.material = material
         this.object = object;
+
+        this.props.threejsUpdateRenderer(this.renderer);
 
         const onObjectLoaded = (x) =>
         {
@@ -324,4 +328,4 @@ const mapStateToProps = store =>
     return { previewMode };
 }
 
-export default connect(mapStateToProps, null, null, { forwardRef: true })(PreviewView);
+export default connect(mapStateToProps, { threejsUpdateRenderer }, null, { forwardRef: true })(PreviewView);
