@@ -26,12 +26,13 @@ import CodeEditor from './components/CodeEditor'
 import CodeEditorTab from './components/CodeEditorTab'
 import PreviewView from './components/PreviewView'
 import StatusBox from './components/StatusBox'
+import MenuPopoutButton from './components/MenuPopoutButton'
 
 //Import config
 import config from './cfg/config.json'
 import BinaryToggle from "./components/BinaryToggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsAlt, faRobot, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsAlt, faRobot, faCog, faCode } from "@fortawesome/free-solid-svg-icons";
 import { SideBarContent, SideBarItem } from "./components/SideBarContent";
 import SettingsPane from "./components/left-side-pane/SettingsPane";
 
@@ -99,6 +100,7 @@ class App extends React.Component
 					<div className="right-view">
 						<header>
 							<div className="right-pane">
+								<MenuPopoutButton icon={faCode} title="Shader Examples" />
 								<StatusBox />
 								<BinaryToggle keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
 							</div>
