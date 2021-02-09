@@ -1,0 +1,17 @@
+{
+    "lighting": [
+        {
+            "title": "Diffuse",
+            "vert": "../glsl/templates/examples/diffuse-vert.glsl",
+            "frag": "../glsl/templates/examples/diffuse-frag.glsl"
+        }
+    ],
+
+    "basic": [
+        {
+            "title": "Normals",
+            "vert": "../glsl/templates/vert.glsl",
+            "frag": "../glsl/templates/frag.glsl"
+        }
+    ]
+}
