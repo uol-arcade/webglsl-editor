@@ -265,12 +265,17 @@ class PreviewView extends React.Component
         if(this.props.compileStatus == GLSLCompiler.COMPILE_STATUS_PASS)
             this.updateShaderMaterial();
 
+        //Is loading?
+        const className = (this.props.loading) ? ("loading") : ("");
+
         //Render the canvas
         return (
-            <div onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
-                style={{ width: '100%', height: '95%' }}
-                ref={(mount) => { this.mount = mount }}
-            />
+            <aside className={`threejs-view ${className}`} id={config.threeJSMountName}>
+                <div onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
+                    style={{ width: '100%', height: '95%' }}
+                    ref={(mount) => { this.mount = mount }}
+                />
+            </aside>
         )
     }
 }

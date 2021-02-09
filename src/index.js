@@ -35,6 +35,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsAlt, faRobot, faCog, faCode } from "@fortawesome/free-solid-svg-icons";
 import { SideBarContent, SideBarItem } from "./components/SideBarContent";
 import SettingsPane from "./components/left-side-pane/SettingsPane";
+import ExamplesMenu from "./components/ExamplesMenu";
 
 
 class App extends React.Component
@@ -100,16 +101,16 @@ class App extends React.Component
 					<div className="right-view">
 						<header>
 							<div className="right-pane">
-								<MenuPopoutButton icon={faCode} title="Shader Examples" />
+								<MenuPopoutButton id="shader-examples" icon={faCode} title="Shader Examples">
+									<ExamplesMenu />
+								</MenuPopoutButton>
 								<StatusBox />
 								<BinaryToggle keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
 							</div>
 						</header>
 						<div className="split-pane">
 							<CodeEditor tabs={["Vertex", "Fragment"]}/>
-							<aside className="threejs-view" id={config.threeJSMountName}>
-								<PreviewView />
-							</aside>
+							<PreviewView />
 						</div>
 					</div>
 				</main>

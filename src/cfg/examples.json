@@ -1,17 +1,17 @@
 {
-    "lighting": [
+    "Lighting": [
         {
             "title": "Diffuse",
-            "vert": "../glsl/templates/examples/diffuse-vert.glsl",
-            "frag": "../glsl/templates/examples/diffuse-frag.glsl"
+            "vert": "glsl/examples/diffuse-vert.glsl",
+            "frag": "glsl/examples/diffuse-frag.glsl"
         }
     ],
 
-    "basic": [
+    "Basic": [
         {
             "title": "Normals",
-            "vert": "../glsl/templates/vert.glsl",
-            "frag": "../glsl/templates/frag.glsl"
+            "vert": "glsl/examples/normals-vert.glsl",
+            "frag": "glsl/examples/normals-frag.glsl"
         }
     ]
 }
