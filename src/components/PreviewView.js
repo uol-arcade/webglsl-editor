@@ -266,7 +266,7 @@ class PreviewView extends React.Component
             this.updateShaderMaterial();
 
         //Is loading?
-        const className = (this.props.loading) ? ("loading") : ("");
+        const className = (this.props.loadStatus);
 
         //Render the canvas
         return (
@@ -286,6 +286,7 @@ const mapStateToProps = store =>
     return { 
         previewMode:   selectors.getPreviewMode(store),
         compileStatus: selectors.getCompileStatus(store),
+        loadStatus: selectors.getThreeJsLoadStatus(store),
         vertSrc: selectors.getVertSrc(store),
         fragSrc: selectors.getFragSrc(store)
     };

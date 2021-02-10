@@ -11,5 +11,6 @@ export const ASYNC_LOAD_SHADER_EXAMPLE = "editor/loadShaderExample";
 export const ASYNC_LOAD_OBJECT_EXAMPLE  = "editor/loadObjectExample";
 
 //threejs related stuff
-export const THREEJS_UPDATE_RENDERER = "threejs/updateRenderer"
+export const THREEJS_UPDATE_RENDERER    = "threejs/updateRenderer"
+export const THREEJS_UPDATE_LOAD_STATUS = "threejs/updateLoadStatus"
 

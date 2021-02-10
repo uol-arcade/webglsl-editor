@@ -21,6 +21,6 @@ export const getPrettyErrors   = store => getCompileErrors(store).pretty;
 export const getCompileStatus = store => getAppReducer(store).compileStatus;
 
 
-
 //Three js stuff
-export const getThreeJsRenderer = store => getAppReducer(store).threejs.renderer;
+export const getThreeJsRenderer   = store => getAppReducer(store).threejs.renderer;
+export const getThreeJsLoadStatus = store => getAppReducer(store).threejs.loadStatus;

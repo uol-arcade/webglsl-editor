@@ -17,7 +17,8 @@ export const APP_INITIAL_STATE =
     vertSrc: VERT_SHADER_TEMPLATE,
     fragSrc: FRAG_SHADER_TEMPLATE,
     threejs: {
-        renderer: null
+        renderer: null,
+        loadStatus: "not-loading"
     },
     errors: {
         detailed: [],
@@ -62,6 +63,17 @@ const setThreeJSRenderer = (state, renderer) =>
     }
 }
 
+const setThreeJSStatus = (state, status) =>
+{
+    return {
+        ...state,
+        threejs: {
+            ...state.threejs,
+            loadStatus: status
+        }
+    }
+}
+
 const setCompileStatus = (state, status) => 
 {
     return {
@@ -70,7 +82,7 @@ const setCompileStatus = (state, status) =>
     }
 }
 
-export function setShadersFromPath(store, payload)
+function setShadersFromPath(store, payload)
 {
     //Extract to separate variables
     const vert = payload.vert;
@@ -101,6 +113,9 @@ export default function(state = APP_INITIAL_STATE, action)
 
     if(action.type == actionTypes.THREEJS_UPDATE_RENDERER)
         return setThreeJSRenderer(state, action.payload.renderer);
+
+    if (action.type == actionTypes.THREEJS_UPDATE_LOAD_STATUS)
+        return setThreeJSStatus(state, action.payload.status);
 
     if(action.type == actionTypes.EDITOR_UPDATE_COMPILE_STATUS)
         return setCompileStatus(state, action.payload.status);

@@ -1,9 +1,11 @@
 import React from 'react'
 import codeExamples from '../cfg/examples.json'
 import { connect } from 'react-redux'
-import { loadASyncShaderExample } from '../redux/actions'
 import * as actionTypes from '../redux/actionTypes'
 import axios from 'axios'
+
+import { threejsUpdateLoadStatus } from '../redux/actions'
+
 
 class ExamplesMenu extends React.Component
 {
@@ -56,9 +58,15 @@ class ExamplesMenu extends React.Component
 const mapDispatchToProps = dispatch => ({
     loadShader: (vert, frag) => dispatch(async () =>
     {
+        //Dispatch load status update
+        dispatch(threejsUpdateLoadStatus("loading"));
+
         //Get vert + frag
         const vertSrc = await axios.get(vert);
         const fragSrc = await axios.get(frag);
+
+        //Dispatch load status update
+        dispatch(threejsUpdateLoadStatus("not-loading"));
 
         //Dispatch with that data
         dispatch({

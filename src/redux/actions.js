@@ -45,4 +45,11 @@ export const threejsUpdateRenderer = renderer =>
     }
 }
 
+export const threejsUpdateLoadStatus = status =>
+{
+    return {
+        type: actionTypes.THREEJS_UPDATE_LOAD_STATUS,
+        payload: { status }
+    }
+}
 
