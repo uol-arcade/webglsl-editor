@@ -2,6 +2,7 @@ import { dispatch } from 'redux'
 import store from '../redux/store'
 
 import { threejsUpdateLoadStatus, threejsUpdateObject } from '../redux/actions'
+import config from '../cfg/config.json'
 
 import * as THREE from 'three'
 import { RawShaderMaterial, Vector2 } from 'three';
@@ -25,8 +26,9 @@ export const loadObjectThunk = (path) => async(dispatch, getState) =>
     //Load
     const obj = await loadPromise(path);
 
-    //Delay 
-    await new Promise(r => setTimeout(r, 500));
+    //Artificial delay 
+    if(config.artificialObjLoadDelay)
+        await new Promise(r => setTimeout(r, 100));
 
     //Set to not loading & update object
     dispatch(threejsUpdateLoadStatus("not-loading"));

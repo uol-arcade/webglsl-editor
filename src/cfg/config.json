@@ -7,5 +7,7 @@
     "zoomMultiplier": 0.001,
     "zoomClampZMin": 0.75,
     "zoomClampZMax": 15,
-    "threeJSMountName": "threejs-mount"
+    "threeJSMountName": "threejs-mount",
+    "saveRotBetweenObjLoad": true,
+    "artificialObjLoadDelay": true
 }

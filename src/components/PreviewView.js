@@ -79,6 +79,10 @@ class PreviewView extends React.Component
 
     onObjectLoaded(x)
     {
+
+        //Save rot
+        const rot = this.object.rotation;
+
         //Remove the current object
         this.scene.remove(this.object);
 
@@ -94,9 +98,13 @@ class PreviewView extends React.Component
             }
         });
 
-        //Set material of parent, reset to (0,0,0)
+        //Set material of parent, reset to (0,0,0), apply rot
         x.material = this.material;
         x.position.set(0, 0, 0);
+
+        //Restore rotation?
+        if(config.saveRotBetweenObjLoad)
+            x.rotation.set(rot.x, rot.y, rot.z);
 
         //Add to scene and update refs
         this.scene.add(x);
