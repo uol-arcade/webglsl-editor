@@ -33,10 +33,25 @@ class CodeEditor extends React.Component
         //Otherwise set state
         this.setState({ selectedIndex: idx });
 
+        //Has this compiled? If so.. we don't need to update
+        if (this.props.compileStatus == GLSLCompiler.COMPILE_STATUS_PASS)
+            return;
+
+        //Figure out which needs updating
+        let vsrc = this.props.src.Vertex;
+        let fsrc = this.props.src.Fragment;
+
+        //Vertex
+        if(idx == 1)
+            vsrc = this.tempSrc.Vertex;
+
+        //Fragment
+        else if(idx == 0)
+            fsrc = this.tempSrc.Fragment;
+
         //Tab has changed, update source so it saves
         //
-        const sources = { vert: this.tempSrc.Vertex, frag: this.tempSrc.Fragment };
-        this.props.editorUpdateVertFragSrc(sources.vert, sources.frag);
+        this.props.editorUpdateVertFragSrc(vsrc, fsrc);
 
         //Call external callback if needed
         // if(this.props.onTabChange)
@@ -130,8 +145,6 @@ class CodeEditor extends React.Component
                     if(index != this.state.selectedIndex)
                         return undefined;
 
-                    // console.log(this.props.detailedErrors)
-
                     return <CodeEditorTab errors={this.props.errors[tab]} key={tab} title={tab} onChange={this.onEditorChangeSrc.bind(this)} title={tab} defaultSrc={this.props.src[tab]} />
                 })}
             </div>
@@ -149,6 +162,7 @@ const mapStateToProps = store => {
             "Vertex":   selectors.getDetailedErrors(store).vert,
             "Fragment": selectors.getDetailedErrors(store).frag,
         },
+        compileStatus: selectors.getCompileStatus(store),
         renderer: selectors.getThreeJsRenderer(store)
     } 
 };

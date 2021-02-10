@@ -1,9 +1,14 @@
+//Import axios
+import { axios } from 'axios'
+
+//Action types
 import * as actionTypes from '../actionTypes'
 
 //GLSL template imports
 import * as GLSLCompiler from '../../glsl/compiler/GLSLCompiler'
 import VERT_SHADER_TEMPLATE from '../../glsl/templates/vert.glsl'
 import FRAG_SHADER_TEMPLATE from '../../glsl/templates/frag.glsl'
+
 
 //The initial state
 export const APP_INITIAL_STATE =
@@ -65,6 +70,16 @@ const setCompileStatus = (state, status) =>
     }
 }
 
+export function setShadersFromPath(store, payload)
+{
+    //Extract to separate variables
+    const vert = payload.vert;
+    const frag = payload.frag;
+
+    //Set v+f src
+    return setVertFragSrc(store, vert, frag);
+}
+
 export default function(state = APP_INITIAL_STATE, action) 
 {
     if (action.type == actionTypes.PREVIEW_VIEW_TOGGLE_TOGGLED)
@@ -89,6 +104,9 @@ export default function(state = APP_INITIAL_STATE, action)
 
     if(action.type == actionTypes.EDITOR_UPDATE_COMPILE_STATUS)
         return setCompileStatus(state, action.payload.status);
+
+    if(action.type == actionTypes.ASYNC_LOAD_SHADER_EXAMPLE)
+        return setShadersFromPath(state, action.payload);
 
 
     return state;

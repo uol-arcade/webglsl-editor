@@ -48,6 +48,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@reduxjs/toolkit": "^1.5.0",
     "ace-builds": "^1.4.12",
+    "axios": "^0.21.1",
     "copy-webpack-plugin": "^6.2.1",
     "fibers": "^5.0.0",
     "jquery": "^3.5.1",
@@ -58,6 +59,7 @@
     "react-redux": "^7.2.2",
     "react-three-fiber": "^5.3.17",
     "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "three": "^0.124.0"

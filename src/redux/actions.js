@@ -1,4 +1,5 @@
 // Constants
+import axios from 'axios';
 import * as actionTypes from './actionTypes'
 
 export const toggleChangedMessage = () => {
@@ -43,3 +44,5 @@ export const threejsUpdateRenderer = renderer =>
         payload: { renderer }
     }
 }
+
+

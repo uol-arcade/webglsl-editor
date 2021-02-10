@@ -16,16 +16,30 @@ export default class CodeEditorTab extends React.Component
         super(props);
 
         this.src = (props.defaultSrc) ? (props.defaultSrc) : ("");
+        this.initialDefaultSrc = props.defaultSrc;
+    }
+
+    componentDidUpdate()
+    {
+        if(this.initialDefaultSrc != this.props.defaultSrc)
+        {
+            if(this.src != this.props.defaultSrc)
+            {
+                //Update!
+                this.onChange(this.props.defaultSrc);
+            }
+
+            this.initialDefaultSrc = this.props.defaultSrc;
+        }
     }
 
     onChange(src)
-    {
+    {        
         this.src = src;
 
         if(this.props.onChange)
             this.props.onChange(this.props.title, this.src);
     }
-
 
     getRenderedEditor()
     {
@@ -63,6 +77,9 @@ export default class CodeEditorTab extends React.Component
 
     render() 
     {
+        // if(this.props.defaultSrc != this.src)
+            // console.log("update")
+
         return this.getRenderedEditor();
     }
 }

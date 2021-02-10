@@ -1,5 +1,9 @@
 import React from 'react'
 import codeExamples from '../cfg/examples.json'
+import { connect } from 'react-redux'
+import { loadASyncShaderExample } from '../redux/actions'
+import * as actionTypes from '../redux/actionTypes'
+import axios from 'axios'
 
 class ExamplesMenu extends React.Component
 {
@@ -8,15 +12,11 @@ class ExamplesMenu extends React.Component
         super(props);
     }
 
-    loadShaderAsync(vertPath, fragPath)
-    {
-        console.log(`LOAD ${vertPath} and ${fragPath}`);
-    }
 
     onExampleClick(item)
     {
-        //Load item
-        this.loadShaderAsync(item.vert, item.frag);
+        //Load the shader
+        this.props.loadShader(item.vert, item.frag);
     }
 
     getItems()
@@ -52,4 +52,23 @@ class ExamplesMenu extends React.Component
     }
 }
 
-export default ExamplesMenu;
+
+const mapDispatchToProps = dispatch => ({
+    loadShader: (vert, frag) => dispatch(async () =>
+    {
+        //Get vert + frag
+        const vertSrc = await axios.get(vert);
+        const fragSrc = await axios.get(frag);
+
+        //Dispatch with that data
+        dispatch({
+            type: actionTypes.ASYNC_LOAD_SHADER_EXAMPLE,
+            payload: {
+                vert: vertSrc.data,
+                frag: fragSrc.data
+            }
+        })
+    })
+});
+
+export default connect(null, mapDispatchToProps, null, { forwardRef: true })(ExamplesMenu);

@@ -101,10 +101,10 @@ class App extends React.Component
 					<div className="right-view">
 						<header>
 							<div className="right-pane">
+								<StatusBox />
 								<MenuPopoutButton id="shader-examples" icon={faCode} title="Shader Examples">
 									<ExamplesMenu />
 								</MenuPopoutButton>
-								<StatusBox />
 								<BinaryToggle keys={["manual", "auto"]} icons={[ faArrowsAlt, faRobot ]}/>
 							</div>
 						</header>
