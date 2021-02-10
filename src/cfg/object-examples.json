@@ -8,6 +8,11 @@
         {
             "title": "Suzanne",
             "obj": "assets/obj/suzanne.obj"
+        },
+
+        {
+            "title": "Teapot",
+            "obj": "assets/obj/teapot.obj"
         }
     ]
 }
