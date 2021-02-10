@@ -12,8 +12,11 @@ You can try the demo out [here](https://blewert.github.io/webglsl-editor/).
 ## Installation
 To install, clone this repo and run `npm install`. You can then use `start.bat` (on Windows) or `npm run start` to start the editor in development mode.
 
+### Cool, has it got a name?
+No. I'm trying my best to think of one, but I really can't. 🤔
+
 ## Versioning
-The current version is `0.1.0`. The GLSL editor consists of a blank tabbed text-editor and some functionality: shaders can be edited, compiled (with error feedback) and viewed in real-time.
+The current version is `0.2.0`. The GLSL editor consists of a tabbed text-editor for vert & frag shaders. Shaders can be edited, compiled (with error feedback) and viewed in real-time.
 
 ### Previous versions
 | Version | Date | Notes  |
@@ -21,7 +24,7 @@ The current version is `0.1.0`. The GLSL editor consists of a blank tabbed text-
 | 0.0.1   | 23/01/21 | Initial creation
 | 0.0.2   | 24/01/21 | Basic working shader editing.
 | 0.1.0   | 30/01/21 | Shader editing, error feedback, compilation status, side-bar and auto-rotate functions.
+| 0.2.0   | 10/02/21 | Loadable shader examples!
 
 ### Issues & Suggestions
 Issues & suggestions can be made on the project board for this repository. You should find it under the *Project* tab of this repository. Alternatively, create a new issue under the *Issues* tab.
-
