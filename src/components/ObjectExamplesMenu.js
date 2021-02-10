@@ -1,13 +1,14 @@
 import React from 'react'
-import codeExamples from '../cfg/examples.json'
+import objExamples from '../cfg/object-examples.json'
 import { connect } from 'react-redux'
 import * as actionTypes from '../redux/actionTypes'
 import axios from 'axios'
 
-import { threejsUpdateLoadStatus } from '../redux/actions'
+import { threejsUpdateLoadStatus, threejsUpdateObject } from '../redux/actions'
 import MenuPopout from './MenuPopout'
+import * as AsyncObjLoader from '../glsl/AsyncObjLoader'
 
-class ExamplesMenu extends React.Component
+class ObjectExamplesMenu extends React.Component
 {
     constructor(props)
     {
@@ -17,13 +18,13 @@ class ExamplesMenu extends React.Component
     onExampleClick(item)
     {
         //Load the shader
-        this.props.loadShader(item.vert, item.frag);
+        AsyncObjLoader.setLoadObjectPath(item.obj);
     }
 
     render()
     {        
         //Just make a popout menu
-        return <MenuPopout onItemClicked={this.onExampleClick.bind(this)} data={codeExamples}/>
+        return <MenuPopout onItemClicked={this.onExampleClick.bind(this)} data={objExamples}/>
     }
 }
 
@@ -52,4 +53,4 @@ const mapDispatchToProps = dispatch => ({
     })
 });
 
-export default connect(null, mapDispatchToProps, null, { forwardRef: true })(ExamplesMenu);
+export default connect(null, mapDispatchToProps, null, { forwardRef: true })(ObjectExamplesMenu);

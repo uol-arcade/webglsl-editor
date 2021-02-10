@@ -32,10 +32,11 @@ import MenuPopoutButton from './components/MenuPopoutButton'
 import config from './cfg/config.json'
 import BinaryToggle from "./components/BinaryToggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsAlt, faRobot, faCog, faCode } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsAlt, faRobot, faCog, faCode, faCube } from "@fortawesome/free-solid-svg-icons";
 import { SideBarContent, SideBarItem } from "./components/SideBarContent";
 import SettingsPane from "./components/left-side-pane/SettingsPane";
 import ExamplesMenu from "./components/ExamplesMenu";
+import ObjectExamplesMenu from "./components/ObjectExamplesMenu";
 
 
 class App extends React.Component
@@ -102,6 +103,9 @@ class App extends React.Component
 						<header>
 							<div className="right-pane">
 								<StatusBox />
+								<MenuPopoutButton id="object-examples" icon={faCube} title="Object Examples">
+									<ObjectExamplesMenu />
+								</MenuPopoutButton>
 								<MenuPopoutButton id="shader-examples" icon={faCode} title="Shader Examples">
 									<ExamplesMenu />
 								</MenuPopoutButton>

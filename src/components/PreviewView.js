@@ -5,6 +5,7 @@ import { threejsUpdateRenderer } from '../redux/actions'
 import * as THREE from 'three'
 import { RawShaderMaterial, Vector2 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+import * as ASyncObjLoader from '../glsl/AsyncObjLoader'
 
 import config from '../cfg/config.json'
 import * as selectors from '../redux/selectors';
@@ -43,6 +44,9 @@ class PreviewView extends React.Component
 
         //Make the loader
         this.loader = new OBJLoader();
+
+        //Old object path
+        this.oldObjPath = null;
     }
 
     onWindowResize(event)
@@ -70,6 +74,44 @@ class PreviewView extends React.Component
             //Update camera aspect ratio & force update of projection matrix
             this.camera.aspect = aspectRatio;
             this.camera.updateProjectionMatrix();
+        }
+    }
+
+    onObjectLoaded(x)
+    {
+        //Remove the current object
+        this.scene.remove(this.object);
+
+        //Set materials
+        //..
+
+        x.traverse(x => 
+        {
+            if (x instanceof THREE.Mesh) 
+            {
+                x.material = this.material;
+                // x.material.flatShading = true;
+            }
+        });
+
+        //Set material of parent, reset to (0,0,0)
+        x.material = this.material;
+        x.position.set(0, 0, 0);
+
+        //Add to scene and update refs
+        this.scene.add(x);
+        this.object = x;
+    }
+
+    componentDidUpdate()
+    {
+        if(this.oldObjPath != this.props.objPath)
+        {
+            //Object path has updated! So.. load it
+            ASyncObjLoader.loadObjectData(this.props.objPath).then(this.onObjectLoaded.bind(this));
+
+            //Set old path
+            this.oldObjPath = this.props.objPath;
         }
     }
 
@@ -104,24 +146,8 @@ class PreviewView extends React.Component
 
         this.props.threejsUpdateRenderer(this.renderer);
 
-        const onObjectLoaded = (x) =>
-        {
-            x.traverse(x => {
-                if(x instanceof THREE.Mesh)
-                {
-                    x.material = this.material;
-                    // x.material.flatShading = true;
-                }
-            });
-
-            x.material = this.material;
-            x.position.set(0, 0, 0);
-            
-            this.scene.add(x);
-            this.object = x;
-        };
-
-        this.loader.load('assets/obj/bunny_fixed.obj', onObjectLoaded.bind(this), x => console.log(x.loaded / x.total), e => console.log(error));
+        //Load the object
+        ASyncObjLoader.setLoadObjectPath('assets/obj/bunny_fixed.obj')
 
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
@@ -288,7 +314,8 @@ const mapStateToProps = store =>
         compileStatus: selectors.getCompileStatus(store),
         loadStatus: selectors.getThreeJsLoadStatus(store),
         vertSrc: selectors.getVertSrc(store),
-        fragSrc: selectors.getFragSrc(store)
+        fragSrc: selectors.getFragSrc(store),
+        objPath: selectors.getThreeJsObject(store)
     };
 }
 

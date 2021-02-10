@@ -18,6 +18,7 @@ export const APP_INITIAL_STATE =
     fragSrc: FRAG_SHADER_TEMPLATE,
     threejs: {
         renderer: null,
+        obj: null,
         loadStatus: "not-loading"
     },
     errors: {
@@ -92,6 +93,17 @@ function setShadersFromPath(store, payload)
     return setVertFragSrc(store, vert, frag);
 }
 
+function setLoadObjectPath(store, payload)
+{
+    return {
+        ...store,
+        threejs: {
+            ...store.threejs,
+            obj: payload.obj
+        }
+    }
+}
+
 export default function(state = APP_INITIAL_STATE, action) 
 {
     if (action.type == actionTypes.PREVIEW_VIEW_TOGGLE_TOGGLED)
@@ -122,6 +134,9 @@ export default function(state = APP_INITIAL_STATE, action)
 
     if(action.type == actionTypes.ASYNC_LOAD_SHADER_EXAMPLE)
         return setShadersFromPath(state, action.payload);
+
+    if(action.type == actionTypes.ASYNC_LOAD_OBJECT_EXAMPLE)
+        return setLoadObjectPath(state, action.payload);
 
 
     return state;

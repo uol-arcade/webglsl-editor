@@ -1,0 +1,13 @@
+{
+    "Reference": [
+        {
+            "title": "Bunny",
+            "obj": "assets/obj/bunny_fixed.obj"
+        },
+
+        {
+            "title": "Suzanne",
+            "obj": "assets/obj/suzanne.obj"
+        }
+    ]
+}

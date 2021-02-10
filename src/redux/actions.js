@@ -53,3 +53,11 @@ export const threejsUpdateLoadStatus = status =>
     }
 }
 
+export const threejsUpdateObject = obj => 
+{
+    return {
+        type: actionTypes.ASYNC_LOAD_OBJECT_EXAMPLE,
+        payload: { obj }
+    }
+}
+
