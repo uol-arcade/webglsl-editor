@@ -1,6 +1,6 @@
 import React from 'react'
 
-export class Checkbox extends React.Component
+export default class Checkbox extends React.Component
 {
     constructor(props)
     {

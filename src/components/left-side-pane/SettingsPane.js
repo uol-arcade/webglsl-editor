@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Checkbox from '../ui/CheckBox'
 
 export default class SettingsPane extends React.Component
 {
@@ -10,6 +10,9 @@ export default class SettingsPane extends React.Component
 
     render()
     {
-        return <h1>Settings</h1>;
+        return <div className="left-pane settings">
+            <h1>Settings</h1>
+            <Checkbox/>
+        </div>;
     }
 }
