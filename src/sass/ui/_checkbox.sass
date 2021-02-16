@@ -1,0 +1,27 @@
+
+
+.ui.checkbox
+    color: $fg-color
+    display: inline-flex
+    align-items: center
+
+    svg 
+        margin-right: 1rem
+        background-color: $fg-color-light-2
+        border: 2px solid transparent
+        color: $fg-color
+        padding: 0.25rem
+        border-radius: 0.25rem
+        font-size: 0.75rem
+        cursor: pointer
+
+    &:not(.checked)
+        svg
+            background-color: $bg-color-light-1
+            color: $bg-color-light-1
+            border-color: $fg-color-light-2
+
+    p
+        margin: 0
+        padding: 0
+        line-height: 1.15

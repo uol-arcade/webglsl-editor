@@ -8,11 +8,16 @@ export default class SettingsPane extends React.Component
         super(props);
     }
 
+    onChangeTransparent(status)
+    {
+        console.log(status);
+    }
+
     render()
     {
         return <div className="left-pane settings">
             <h1>Settings</h1>
-            <Checkbox/>
+            <Checkbox title="Transparent background?" onChange={this.onChangeTransparent.bind(this)}/>
         </div>;
     }
 }
