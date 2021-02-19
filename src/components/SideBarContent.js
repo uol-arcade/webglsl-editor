@@ -8,7 +8,10 @@ export function SideBarItem(props)
     if(props.icon)
         innerContent = <FontAwesomeIcon icon={props.icon}/>
     
-    return <li onClick={props.onClick} className="side-bar-item" title={props.title}>{innerContent}</li>;
+    if(props.activePane == props.paneKey)
+        return <li onClick={props.onClick} className="side-bar-item active" title={props.title}>{innerContent}</li>;
+    else
+        return <li onClick={props.onClick} className="side-bar-item" title={props.title}>{innerContent}</li>;
 }
 
 export class SideBarContent extends React.Component

@@ -90,7 +90,7 @@ class App extends React.Component
 							</div>
 							<div className="middle">
 								<SideBarContent>
-									<SideBarItem onClick={this.onSideBarSettingsClick.bind(this)} icon={faCog} title="Settings" />
+									<SideBarItem onClick={this.onSideBarSettingsClick.bind(this)} icon={faCog} title="Settings" paneKey="settings" activePane={this.state.leftSidePaneMode} />
 									{/* <SideBarItem icon={faArrowsAlt} title="Settings" /> */}
 								</SideBarContent>
 							</div>
