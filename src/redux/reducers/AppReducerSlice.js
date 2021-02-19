@@ -26,7 +26,7 @@ export const APP_INITIAL_STATE =
         pretty: []
     },
     settings: { 
-        transparentBackground: false
+        transparentBackground: true
     },
     compileStatus: GLSLCompiler.COMPILE_STATUS_PASS
 }

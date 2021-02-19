@@ -9,7 +9,9 @@ export default class Checkbox extends React.Component
     {
         super(props);
 
-        this.state = { checked: false }
+        const defaultValue = props.defaultValue;
+
+        this.state = { checked: defaultValue }
     }
 
     onClick()

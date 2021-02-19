@@ -121,6 +121,17 @@ class PreviewView extends React.Component
             //Set old path
             this.oldObjPath = this.props.objPath;
         }
+
+        if(this.props.settings?.transparentBackground)
+        {
+            this.renderer.setClearAlpha(0.0);
+            this.renderer.setClearColor(0x000000, 0);
+        }
+        else
+        {
+            this.renderer.setClearAlpha(1.0);
+            this.renderer.setClearColor(0x000000, 1.0);
+        }
     }
 
     componentDidMount() 
@@ -323,7 +334,8 @@ const mapStateToProps = store =>
         loadStatus: selectors.getThreeJsLoadStatus(store),
         vertSrc: selectors.getVertSrc(store),
         fragSrc: selectors.getFragSrc(store),
-        objPath: selectors.getThreeJsObject(store)
+        objPath: selectors.getThreeJsObject(store),
+        settings: selectors.getSettings(store)
     };
 }
 

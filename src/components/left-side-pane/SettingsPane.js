@@ -21,7 +21,7 @@ export class SettingsPane extends React.Component
     {
         return <div className="left-pane settings">
             <h1>Settings</h1>
-            <Checkbox title="Transparent background?" onChange={this.onSettingsChange.bind(this)} inputKey="transparentBackground" />
+            <Checkbox title="Transparent background?" onChange={this.onSettingsChange.bind(this)} inputKey="transparentBackground" defaultValue={true} />
         </div>;
     }
 }
