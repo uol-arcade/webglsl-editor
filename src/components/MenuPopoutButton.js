@@ -32,6 +32,9 @@ export default class MenuPopoutButton extends React.Component
     onClick()
     {
         this.setState({ menuVisible: !this.state.menuVisible });
+
+        if(this.props.onClick)
+            this.props.onClick();
     }
 
     render()

@@ -32,7 +32,7 @@ import MenuPopoutButton from './components/MenuPopoutButton'
 import config from './cfg/config.json'
 import BinaryToggle from "./components/BinaryToggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsAlt, faRobot, faCog, faCode, faCube } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsAlt, faRobot, faCog, faCode, faCube, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { SideBarContent, SideBarItem } from "./components/SideBarContent";
 import SettingsPane from "./components/left-side-pane/SettingsPane";
 import ExamplesMenu from "./components/ExamplesMenu";
@@ -78,6 +78,12 @@ class App extends React.Component
 		return null;
 	}
 
+	showUploadObjModal()
+	{
+		console.log("Hello I need to upload a model");
+		console.log("show modal pls");
+	}
+
 	render()
 	{
 		return(
@@ -103,6 +109,7 @@ class App extends React.Component
 						<header>
 							<div className="right-pane">
 								<StatusBox />
+								<MenuPopoutButton id="upload-object-button" icon={faUpload} title="Upload 3D Model" onClick={this.showUploadObjModal.bind(this)} />
 								<MenuPopoutButton id="object-examples" icon={faCube} title="Object Examples">
 									<ObjectExamplesMenu />
 								</MenuPopoutButton>
