@@ -25,6 +25,9 @@ export const APP_INITIAL_STATE =
         detailed: [],
         pretty: []
     },
+    settings: { 
+        transparentBackground: false
+    },
     compileStatus: GLSLCompiler.COMPILE_STATUS_PASS
 }
 
@@ -83,6 +86,18 @@ const setCompileStatus = (state, status) =>
     }
 }
 
+const setSettingsKeyValue = (state, key, value) =>
+{
+    return {
+        ...state,
+        settings: {
+            ...state.settings,
+            [key]: value
+        }
+    }
+}
+
+
 function setShadersFromPath(store, payload)
 {
     //Extract to separate variables
@@ -137,6 +152,9 @@ export default function(state = APP_INITIAL_STATE, action)
 
     if(action.type == actionTypes.ASYNC_LOAD_OBJECT_EXAMPLE)
         return setLoadObjectPath(state, action.payload);
+
+    if(action.type == actionTypes.EDITOR_SETTINGS_UPDATE_KEY_VALUE)
+        return setSettingsKeyValue(state, action.payload.key, action.payload.value);
 
 
     return state;

@@ -3,12 +3,8 @@
 //Gets the app reducer
 export const getAppReducer = store => store.appReducer;
 
-
-
 //Preview mode
 export const getPreviewMode = store => getAppReducer(store).previewMode;
-
-
 
 //Get frag & vert src, errors, and compile status
 export const getVertSrc = store => getAppReducer(store).vertSrc;
@@ -25,3 +21,7 @@ export const getCompileStatus = store => getAppReducer(store).compileStatus;
 export const getThreeJsRenderer   = store => getAppReducer(store).threejs.renderer;
 export const getThreeJsLoadStatus = store => getAppReducer(store).threejs.loadStatus;
 export const getThreeJsObject     = store => getAppReducer(store).threejs.obj;
+
+
+//Settings
+export const getSettings = store => getAppReducer(store).settings;

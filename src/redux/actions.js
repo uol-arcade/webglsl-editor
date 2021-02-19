@@ -61,3 +61,13 @@ export const threejsUpdateObject = obj =>
     }
 }
 
+export const updateSettings = (key, value) =>
+{
+    return {
+        type: actionTypes.EDITOR_SETTINGS_UPDATE_KEY_VALUE,
+        payload: {
+            "key": key,
+            "value": value
+        }
+    }
+}
