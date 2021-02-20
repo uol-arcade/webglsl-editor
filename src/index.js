@@ -27,6 +27,8 @@ import CodeEditorTab from './components/CodeEditorTab'
 import PreviewView from './components/PreviewView'
 import StatusBox from './components/StatusBox'
 import MenuPopoutButton from './components/MenuPopoutButton'
+import Modal from './components/modals/Modal'
+import UploadObjectModal from './components/modals/UploadObjectModal'
 
 //Import config
 import config from './cfg/config.json'
@@ -47,7 +49,8 @@ class App extends React.Component
 
 		this.state = 
 		{
-			leftSidePaneMode: null
+			leftSidePaneMode: null,
+			modalMode: null
 		}
 
 		this.timer = null;
@@ -69,6 +72,22 @@ class App extends React.Component
 		this.setState({ leftSidePaneMode: (this.state.leftSidePaneMode == "settings") ? (null) : ("settings") });
 	}
 
+	getModal()
+	{
+		// if(this.state.modalMode == null)
+			// return null;
+
+		// else if(this.state.modalMode == "upload-model")
+			return <UploadObjectModal />;
+	}
+
+	showUploadObjModal() 
+	{
+		//Set state
+		this.setState({ modalMode: "upload-model" });
+	}
+	
+
 	getLeftSidePane()
 	{
 		//Settings? show settings
@@ -78,17 +97,12 @@ class App extends React.Component
 		return null;
 	}
 
-	showUploadObjModal()
-	{
-		console.log("Hello I need to upload a model");
-		console.log("show modal pls");
-	}
-
 	render()
 	{
 		return(
 			<Provider store={store}>
 				<main>
+					{this.getModal()}
 					<aside className="left-bar">
 						<div className="left-side">
 							<div className="top">

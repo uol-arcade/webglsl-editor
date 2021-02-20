@@ -1,0 +1,41 @@
+
+.drag-drop-area
+    width: 100%
+    min-height: 20vh
+    border: 2px dashed $bg-color-light-2
+    border-radius: 1.5rem
+    transition: 0.25s
+    color: $bg-color-light-2
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 3rem
+
+    &.active
+        border-color: $accent-color-selected
+        color: $accent-color-selected
+        position: relative
+        
+        svg
+            animation: drag-anim 0.5s ease-out infinite
+
+        // &::after
+        //     content:"Upload"
+        //     font-family: $font-alt
+        //     font-weight: bold
+        //     position: absolute
+        //     top: 50%
+        //     left: 50%
+        //     transform: translate(-50%, -50%)
+            
+            
+
+    @keyframes drag-anim
+        0%
+            transform: translateY(0)
+
+        50%
+            transform: translateY(-5px)
+
+        100%
+            transform: translateY(0)
