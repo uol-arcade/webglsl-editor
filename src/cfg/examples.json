@@ -2,15 +2,21 @@
     "Lighting": [
         {
             "title": "Diffuse",
-            "vert": "assets/glsl/examples/diffuse-vert.glsl",
+            "vert": "assets/glsl/examples/standard-vert.glsl",
             "frag": "assets/glsl/examples/diffuse-frag.glsl"
+        },
+
+        {
+            "title": "Rainbow",
+            "vert": "assets/glsl/examples/standard-vert.glsl",
+            "frag": "assets/glsl/examples/rainbow-frag.glsl"
         }
     ],
 
     "Basic": [
         {
             "title": "Normals",
-            "vert": "assets/glsl/examples/normals-vert.glsl",
+            "vert": "assets/glsl/examples/standard-vert.glsl",
             "frag": "assets/glsl/examples/normals-frag.glsl"
         }
     ]
