@@ -72,13 +72,18 @@ class App extends React.Component
 		this.setState({ leftSidePaneMode: (this.state.leftSidePaneMode == "settings") ? (null) : ("settings") });
 	}
 
+	onModalClose()
+	{
+		this.setState({ modalMode: null });
+	}
+
 	getModal()
 	{
-		// if(this.state.modalMode == null)
-			// return null;
+		if(this.state.modalMode == null)
+			return null;
 
-		// else if(this.state.modalMode == "upload-model")
-			return <UploadObjectModal />;
+		else if(this.state.modalMode == "upload-model")
+			return <UploadObjectModal onModalClose={this.onModalClose.bind(this)} />;
 	}
 
 	showUploadObjModal() 

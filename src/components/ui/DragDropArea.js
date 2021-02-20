@@ -44,19 +44,9 @@ export default class DragDropArea extends React.Component
         if(file.name.match(/\.obj$/) == null)
             return alert("[error] This is not a .obj file. Please try again.");
 
-        //Otherwise! Upload / read
-        let reader = new FileReader();
-
-        reader.onload = function(event)
-        {
-            // console.log(event.target.result);
-            console.log("on load finished!");
-        }
-
-        reader.onloadstart = (event) => console.log("reader start load!")
-        reader.onprogress = (event) => console.log("progress: " + event.loaded / file.size);
-
-        reader.readAsText(file);
+        //Call external event
+        if(this.props.onFileDropped)
+            this.props.onFileDropped(file);
     }
 
     onDragLeave(event)
