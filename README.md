@@ -18,7 +18,7 @@ To install, clone this repo and run `npm install`. You can then use `start.bat` 
 No. I'm trying my best to think of one, but I really can't. 🤔
 
 ## Versioning
-The current version is `0.3.0`. The GLSL editor consists of a tabbed text-editor for vert & frag shaders. Shaders can be edited, compiled (with error feedback) and viewed in real-time.
+The current version is `0.4.0`. The GLSL editor consists of a tabbed text-editor for vert & frag shaders. Shaders can be edited, compiled (with error feedback) and viewed in real-time. Furthermore, custom objects can be uploaded.
 
 ### Previous versions
 | Version | Date | Notes  |
@@ -28,6 +28,7 @@ The current version is `0.3.0`. The GLSL editor consists of a tabbed text-editor
 | 0.1.0   | 30/01/21 | Shader editing, error feedback, compilation status, side-bar and auto-rotate functions.
 | 0.2.0   | 10/02/21 | Loadable shader examples!
 | 0.3.0   | 10/02/21 | Loadable object examples!
+| 0.4.0   | 20/02/21 | Loadable .obj files
 
 ### Issues & Suggestions
 Issues & suggestions can be made on the project board for this repository. You should find it under the *Project* tab of this repository. Alternatively, create a new issue under the *Issues* tab.

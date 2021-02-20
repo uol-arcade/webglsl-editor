@@ -41,7 +41,6 @@ class PreviewView extends React.Component
             time: { value: 0.0 }
         };
 
-
         //Make the loader
         this.loader = new OBJLoader();
 
@@ -119,7 +118,7 @@ class PreviewView extends React.Component
             //Object path has updated! So.. load it
             ASyncObjLoader.loadObjectData(this.props.objPath).then(this.onObjectLoaded.bind(this));
 
-            //Set old path
+            //Set old path, set source to null
             this.oldObjPath = this.props.objPath;
         }
 
@@ -127,14 +126,14 @@ class PreviewView extends React.Component
         {
             //TODO: Find a quicker way of doing this comparison ^^^^^, maybe hashes?
             //..
-            
+
             //The object source has changed! So we need to parse this object
             const obj = this.loader.parse(this.props.objSource);
 
             //Call onObjectLoaded
             this.onObjectLoaded(obj);
 
-            //Set old path
+            //Set old source
             this.oldObjSource = this.props.objSource;
         }
 
