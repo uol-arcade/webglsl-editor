@@ -19,7 +19,8 @@ export const APP_INITIAL_STATE =
     threejs: {
         renderer: null,
         obj: null,
-        loadStatus: "not-loading"
+        loadStatus: "not-loading",
+        objSource: null
     },
     errors: {
         detailed: [],
@@ -119,6 +120,17 @@ function setLoadObjectPath(store, payload)
     }
 }
 
+function setThreeJSObjSource(store, payload)
+{
+    return {
+        ...store,
+        threejs: {
+            ...store.threejs,
+            objSource: payload.objSource
+        }
+    }
+}
+
 export default function(state = APP_INITIAL_STATE, action) 
 {
     if (action.type == actionTypes.PREVIEW_VIEW_TOGGLE_TOGGLED)
@@ -144,6 +156,9 @@ export default function(state = APP_INITIAL_STATE, action)
     if (action.type == actionTypes.THREEJS_UPDATE_LOAD_STATUS)
         return setThreeJSStatus(state, action.payload.status);
 
+    if (action.type == actionTypes.THREEJS_UPLOAD_MODEL)
+        return setThreeJSObjSource(state, action.payload);
+
     if(action.type == actionTypes.EDITOR_UPDATE_COMPILE_STATUS)
         return setCompileStatus(state, action.payload.status);
 
@@ -155,6 +170,7 @@ export default function(state = APP_INITIAL_STATE, action)
 
     if(action.type == actionTypes.EDITOR_SETTINGS_UPDATE_KEY_VALUE)
         return setSettingsKeyValue(state, action.payload.key, action.payload.value);
+
 
 
     return state;

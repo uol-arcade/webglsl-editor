@@ -47,6 +47,7 @@ class PreviewView extends React.Component
 
         //Old object path
         this.oldObjPath = null;
+        this.oldObjSource = null;
     }
 
     onWindowResize(event)
@@ -120,6 +121,21 @@ class PreviewView extends React.Component
 
             //Set old path
             this.oldObjPath = this.props.objPath;
+        }
+
+        if(this.oldObjSource != this.props.objSource)
+        {
+            //TODO: Find a quicker way of doing this comparison ^^^^^, maybe hashes?
+            //..
+            
+            //The object source has changed! So we need to parse this object
+            const obj = this.loader.parse(this.props.objSource);
+
+            //Call onObjectLoaded
+            this.onObjectLoaded(obj);
+
+            //Set old path
+            this.oldObjSource = this.props.objSource;
         }
 
         if(this.props.settings?.transparentBackground)
@@ -335,6 +351,7 @@ const mapStateToProps = store =>
         vertSrc: selectors.getVertSrc(store),
         fragSrc: selectors.getFragSrc(store),
         objPath: selectors.getThreeJsObject(store),
+        objSource: selectors.getThreeJsObjectSource(store),
         settings: selectors.getSettings(store)
     };
 }

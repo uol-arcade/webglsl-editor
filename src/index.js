@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 //Redux
-import { Provider, useSelector, useDispatch, connect } from 'react-redux'
+import { Provider, dispatch, useSelector, useDispatch, connect } from 'react-redux'
 import store from './redux/store'
+import { threejsUploadObject } from './redux/actions'
 
 //ACE
 import AceEditor from "react-ace";
@@ -77,13 +78,18 @@ class App extends React.Component
 		this.setState({ modalMode: null });
 	}
 
+	onObjUploaded(text)
+	{
+		store.dispatch(threejsUploadObject(text));
+	}
+
 	getModal()
 	{
 		if(this.state.modalMode == null)
 			return null;
 
 		else if(this.state.modalMode == "upload-model")
-			return <UploadObjectModal onModalClose={this.onModalClose.bind(this)} />;
+			return <UploadObjectModal onObjUploaded={this.onObjUploaded.bind(this)} onModalClose={this.onModalClose.bind(this)} />;
 	}
 
 	showUploadObjModal() 
@@ -148,6 +154,5 @@ class App extends React.Component
 		);
 	}
 }
-
 
 ReactDOM.render(<App />, document.getElementById("AppContainer"));

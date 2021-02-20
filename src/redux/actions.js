@@ -71,3 +71,13 @@ export const updateSettings = (key, value) =>
         }
     }
 }
+
+export const threejsUploadObject = objSource =>
+{
+    return {
+        type: actionTypes.THREEJS_UPLOAD_MODEL,
+        payload: {
+            objSource: objSource
+        }
+    }
+}

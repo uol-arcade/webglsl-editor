@@ -23,7 +23,9 @@ export default class UploadObjectModal extends React.Component
         let reader = new FileReader();
 
         //On load is an external callback
-        //TODO: Convert to thunk.
+        //TODO: Convert to thunk. Passing by value here is a bad idea because it can potentially be huge.
+        //..
+
         reader.onload = (function(event)
         {
             //Set state
@@ -31,6 +33,9 @@ export default class UploadObjectModal extends React.Component
             
             //Set text
             const text = event.target.result;
+
+            //Call the callback
+            this.props.onObjUploaded(text);
             
             //Close the modal
             this.props.onModalClose();

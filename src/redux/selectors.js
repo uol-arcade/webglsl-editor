@@ -18,9 +18,10 @@ export const getCompileStatus = store => getAppReducer(store).compileStatus;
 
 
 //Three js stuff
-export const getThreeJsRenderer   = store => getAppReducer(store).threejs.renderer;
-export const getThreeJsLoadStatus = store => getAppReducer(store).threejs.loadStatus;
-export const getThreeJsObject     = store => getAppReducer(store).threejs.obj;
+export const getThreeJsRenderer     = store => getAppReducer(store).threejs.renderer;
+export const getThreeJsLoadStatus   = store => getAppReducer(store).threejs.loadStatus;
+export const getThreeJsObject       = store => getAppReducer(store).threejs.obj;
+export const getThreeJsObjectSource = store => getAppReducer(store).threejs.objSource;
 
 
 //Settings
