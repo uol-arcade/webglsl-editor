@@ -87,7 +87,7 @@ class App extends React.Component
 	{
 		if(this.state.modalMode == null)
 			return null;
-
+		
 		else if(this.state.modalMode == "upload-model")
 			return <UploadObjectModal onObjUploaded={this.onObjUploaded.bind(this)} onModalClose={this.onModalClose.bind(this)} />;
 	}

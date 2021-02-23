@@ -10,7 +10,7 @@ export default class UploadObjectModal extends React.Component
 
         this.state = {
             reading: false,
-            readPercent: 0
+            loadState: "Uploading"
         }
     }
 
@@ -29,7 +29,7 @@ export default class UploadObjectModal extends React.Component
         reader.onload = (function(event)
         {
             //Set state
-            this.setState({ reading: false, readPercent: 0.0 });
+            this.setState({ loadState: "Updating" });
             
             //Set text
             const text = event.target.result;
@@ -37,18 +37,26 @@ export default class UploadObjectModal extends React.Component
             //Call the callback
             this.props.onObjUploaded(text);
             
-            //Close the modal
-            this.props.onModalClose();
+            //Close the modal after a bit
+            setTimeout((() => 
+            {
+                this.setState({ reading: false });
+                this.props.onModalClose()
+            }).bind(this), 500);
+
         }).bind(this);
 
         //Set up load start, load end
         reader.onloadstart = (event) => null;
 
         //On progress, etc
-        reader.onprogress = (event) => this.setState({ readPercent: (event.loaded / file.size) * 100.0 });
+        reader.onprogress = (event) => 
+        {
+            this.setState({ loadState: "Reading data" });
+        }
         reader.onprogress.bind(this);
+        this.setState({ loadState: "Uploading" });
 
-        //Read it as text
         reader.readAsText(file);
     }
 
@@ -71,7 +79,7 @@ export default class UploadObjectModal extends React.Component
         else
         {
             return <Modal>
-                <h1>{ `${this.state.readPercent}% uploaded` }</h1>
+                <h1 className="loading">{ `${this.state.loadState}...` }</h1>
             </Modal>
         }
     }
