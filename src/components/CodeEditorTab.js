@@ -56,7 +56,7 @@ export default class CodeEditorTab extends React.Component
                 value={this.src}
                 onChange={this.onChange.bind(this)}
                 name="glsl_code_editor"
-                fontSize={16}
+                fontSize={this.props.fontSize}
                 wrapEnabled={true}
                 showError={true}
                 highlightActiveLine={true}

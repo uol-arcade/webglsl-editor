@@ -9,5 +9,9 @@
     "zoomClampZMax": 15,
     "threeJSMountName": "threejs-mount",
     "saveRotBetweenObjLoad": true,
-    "artificialObjLoadDelay": true
+    "artificialObjLoadDelay": true,
+    "defaultFontSize": 16,
+    "minFontSize": 9,
+    "maxFontSize": 32,
+    "enableTextZoomWithWheel": true
 }

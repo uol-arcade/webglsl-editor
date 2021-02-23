@@ -16,12 +16,41 @@ class CodeEditor extends React.Component
         this.state = 
         {
             selectedIndex: 0,
+            fontSize: config.defaultFontSize
         }
 
         this.editorTabs = props.children;
         this.compileTimer = null;
 
         this.tempSrc = { "Vertex": this.props.src.Vertex, "Fragment": this.props.src.Fragment };
+    }
+
+    componentDidMount()
+    {
+        //Not enabled? go away
+        if (!config.enableTextZoomWithWheel)
+            return;
+        
+        // console.log("regulators!! mount up!");
+
+        document.body.addEventListener("wheel", (event) => 
+        {
+            //Not a zoom event? get out of here
+            if(!event.ctrlKey)
+                return;
+
+            //Otherwise.. 
+            event.preventDefault();
+            event.stopPropagation();
+
+            const delta = Math.floor(event.deltaY * -0.01);
+
+            let newFontSize = Math.clamp(this.state.fontSize + delta, config.minFontSize, config.maxFontSize);
+
+            if(newFontSize != this.state.fontSize)
+                this.setState({ fontSize: newFontSize });
+
+        }, { passive: false });
     }
 
     onTabTitleClick(idx)
@@ -145,7 +174,7 @@ class CodeEditor extends React.Component
                     if(index != this.state.selectedIndex)
                         return undefined;
 
-                    return <CodeEditorTab errors={this.props.errors[tab]} key={tab} title={tab} onChange={this.onEditorChangeSrc.bind(this)} title={tab} defaultSrc={this.props.src[tab]} />
+                    return <CodeEditorTab fontSize={this.state.fontSize} errors={this.props.errors[tab]} key={tab} title={tab} onChange={this.onEditorChangeSrc.bind(this)} title={tab} defaultSrc={this.props.src[tab]} />
                 })}
             </div>
         );
