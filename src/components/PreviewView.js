@@ -311,7 +311,13 @@ class PreviewView extends React.Component
 
     onWheel(event)
     {
-        const delta = event.deltaY * config.zoomMultiplier;
+        let delta = event.deltaY * config.zoomMultiplier;
+
+        if(event.shiftKey)
+        {
+            delta *= config.zoomShiftKeyMultiplier;
+            event.stopPropagation();
+        }
 
         this.camera.translateZ(delta);
 

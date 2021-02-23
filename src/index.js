@@ -57,6 +57,9 @@ class App extends React.Component
 		this.timer = null;
 		this.fragTabRef = React.createRef();
 		this.vertTabRef = React.createRef();
+
+		//Show config info for debugging purposes
+		console.log(`%c${config.projectName}\n${this.getVersion()}`, 'font-weight: bold; font-size: 14pt; background-color: black; color: white;');
 	}
 
 	getVersion(long=true)
