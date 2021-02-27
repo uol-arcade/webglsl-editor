@@ -226,14 +226,50 @@ class PreviewView extends React.Component
             this.object.rotation.x += mouseYDelta * config.manualRotateSpeed;
             this.object.rotation.y += mouseXDelta * config.manualRotateSpeed;
         }
+        else if(this.rightMouseDown)
+        {
+            const mouseXDelta = (this.mousePos.x - this.mouseLastPos.x) / screen.height;
+            const mouseYDelta = (this.mousePos.y - this.mouseLastPos.y) / screen.height;
+
+            this.camera.rotation.x -= mouseYDelta * config.manualRotateSpeed;
+            this.camera.rotation.y -= mouseXDelta * config.manualRotateSpeed;
+        }
 
         this.mouseLastPos.x = this.mousePos.x;
         this.mouseLastPos.y = this.mousePos.y;
     }
 
+    onRightMouseDown(event)
+    {
+        this.mouseLastPos = {
+            x: event.screenX,
+            y: event.screenY
+        };
+
+        this.rightMouseDown = true;
+
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    onRightMouseUp(event)
+    {
+        console.log("right up");
+        
+        if(this.rightMouseDown)
+            this.rightMouseDown = false;
+
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
     onMouseDown(event)
     {
+        if(event.button != 0)
+            return this.onRightMouseDown(event);
+
         this.mouseDown = true;
+        this.rightMouseDown = true;
 
         this.mouseLastPos = {
             x: event.screenX,
@@ -245,6 +281,9 @@ class PreviewView extends React.Component
 
     onMouseUp(event)
     {
+        if (event.button != 0)
+            return this.onRightMouseUp(event);
+
         if(this.mouseDown)
             this.mouseDown = false;
     }
@@ -337,7 +376,7 @@ class PreviewView extends React.Component
         //Render the canvas
         return (
             <aside className={`threejs-view ${className}`} id={config.threeJSMountName}>
-                <div onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)}
+                <div onWheel={this.onWheel.bind(this)} onMouseDown={this.onMouseDown.bind(this)} onContextMenu={(event) => event.preventDefault()}
                     style={{ width: '100%', height: '95%' }}
                     ref={(mount) => { this.mount = mount }}
                 />
