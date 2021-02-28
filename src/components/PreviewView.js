@@ -35,6 +35,7 @@ class PreviewView extends React.Component
         this.mouseLastPos = { x: 0, y: 0 };
         this.originalRot = { };
         this.mouseDown = false;
+        this.rightMouseDown = false;
 
         this.uniforms = 
         {
@@ -47,6 +48,8 @@ class PreviewView extends React.Component
         //Old object path
         this.oldObjPath = null;
         this.oldObjSource = null;
+
+        this.flycamMoveDir = [ 0, 0, 0 ];
     }
 
     onWindowResize(event)
@@ -185,6 +188,9 @@ class PreviewView extends React.Component
 
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('mouseup', this.onMouseUp.bind(this));
+        document.addEventListener('keydown', this.onKeyDown.bind(this));
+        document.addEventListener('keyup', this.onKeyUp.bind(this));
+
         window.addEventListener('resize', this.onWindowResize.bind(this));
 
         this.onWindowResize({});
@@ -239,6 +245,61 @@ class PreviewView extends React.Component
         this.mouseLastPos.y = this.mousePos.y;
     }
 
+    //TODO: Fix this flycam control stuff (keys -> vec3). It's horrendous. My eyes
+    //      literally bleed looking at how awful this is. Please future ben, sort this
+    //      out GOSH
+    //..
+
+    onKeyUp(event)
+    {
+        if(!this.rightMouseDown)
+            return;
+
+        const keys = ['w', 'a', 's', 'd'];
+        const directions = [[0, 0, 1], [-1, 0, 0], [0, 0, -1], [1, 0, 0]];
+        
+        if(!keys.includes(event.key))
+            return;
+
+        for (let i = 0; i < keys.length; i++)
+        {
+            const key = keys[i];
+
+            if (key == event.key)
+            {
+                this.flycamMoveDir[0] = (directions[i][0] == 0) ? (this.flycamMoveDir[0]) : (0);
+                this.flycamMoveDir[1] = (directions[i][1] == 0) ? (this.flycamMoveDir[1]) : (0);
+                this.flycamMoveDir[2] = (directions[i][2] == 0) ? (this.flycamMoveDir[2]) : (0);
+            }
+        }
+    }
+
+    onKeyDown(event) 
+    {
+        if(!this.rightMouseDown)
+            return;
+
+        const keys = ['w', 'a', 's', 'd'];
+        const directions = [[0, 0, 1], [-1, 0, 0], [0, 0, -1], [1, 0, 0]];
+
+        if(!keys.includes(event.key))
+            return;
+            
+        for(let i = 0; i < keys.length; i++)
+        {
+            const key = keys[i];
+
+            if(key == event.key)
+            {
+                this.flycamMoveDir[0] = (directions[i][0] == 0) ? (this.flycamMoveDir[0]) : (directions[i][0]);
+                this.flycamMoveDir[1] = (directions[i][1] == 0) ? (this.flycamMoveDir[1]) : (directions[i][1]);
+                this.flycamMoveDir[2] = (directions[i][2] == 0) ? (this.flycamMoveDir[2]) : (directions[i][2]);
+            }
+        }
+        
+        event.preventDefault();
+    }
+
     onRightMouseDown(event)
     {
         this.mouseLastPos = {
@@ -254,8 +315,6 @@ class PreviewView extends React.Component
 
     onRightMouseUp(event)
     {
-        console.log("right up");
-        
         if(this.rightMouseDown)
             this.rightMouseDown = false;
 
@@ -269,7 +328,6 @@ class PreviewView extends React.Component
             return this.onRightMouseDown(event);
 
         this.mouseDown = true;
-        this.rightMouseDown = true;
 
         this.mouseLastPos = {
             x: event.screenX,
@@ -298,6 +356,19 @@ class PreviewView extends React.Component
             this.object.rotation.x += config.autoRotateSpeed;
             this.object.rotation.y += config.autoRotateSpeed;
         }
+
+        if(this.rightMouseDown)
+        {
+            const moveVec = new THREE.Vector3(this.flycamMoveDir[0], this.flycamMoveDir[1], this.flycamMoveDir[2]);
+
+            this.camera.translateX(moveVec.x * config.flyCamMoveSpeed);
+            this.camera.translateY(moveVec.y * config.flyCamMoveSpeed);
+            this.camera.translateZ(-moveVec.z * config.flyCamMoveSpeed);
+
+            this.camera.updateMatrix();
+            this.camera.updateMatrixWorld();
+        }
+
 
         //Update + pass uniforms
         this.updateAndPassUniforms();
@@ -339,7 +410,8 @@ class PreviewView extends React.Component
         this.material = shaderMaterial;
 
         //Set mesh material to this
-        this.object.traverse(x => {
+        this.object.traverse(x => 
+        {
             if(x instanceof THREE.Mesh)
             {
                 x.material = this.material;

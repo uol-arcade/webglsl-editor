@@ -14,5 +14,7 @@
     "defaultFontSize": 16,
     "minFontSize": 9,
     "maxFontSize": 32,
-    "enableTextZoomWithWheel": true
+    "enableTextZoomWithWheel": true,
+    "flyCamMoveSpeed": 0.02,
+    "flyCamBoostMultiplier": 2.0
 }
